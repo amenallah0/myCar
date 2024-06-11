@@ -8,9 +8,11 @@
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
     "animate.css": "^4.1.1",
+    "axios": "^1.7.2",
     "bootstrap": "^5.3.3",
     "imagesloaded": "^5.0.0",
     "isotope-layout": "^3.0.6",
+    "primereact": "^10.6.6",
     "rc-slider": "^10.5.0",
     "react": "^18.2.0",
     "react-countup": "^6.5.0",
@@ -29,8 +31,10 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "axios": "^0.21.1"
   },
+  "proxy": "http://localhost:8081",
   "eslintConfig": {
     "extends": [
       "react-app",

@@ -1,3 +1,5 @@
+
+
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import RouteScrollToTop from "./helper/RouteScrollToTop";
 import ScrollToTop from "react-scroll-to-top";
@@ -18,6 +20,8 @@ import WishlistPage from "./pages/WishlistPage";
 import ContactPage from "./pages/ContactPage";
 
 import HomePageSix from "./pages/HomePageSix";
+import SignUPage from "./pages/SignUpPage";
+
 
 function App() {
   return (
@@ -42,6 +46,8 @@ function App() {
         <Route exact path="/checkout" element={<CheckoutPage />} />
         <Route exact path="/wishlist" element={<WishlistPage />} />
         <Route exact path="/contact" element={<ContactPage />} />
+        <Route exact path="/SignUp" element={<SignUPage />} />
+
       </Routes>
     </BrowserRouter>
   );

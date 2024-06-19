@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link, NavLink } from "react-router-dom";
+import { useUser } from '../userContext';
+
 
 const HeaderFive = () => {
   const [active, setActive] = useState(false);
@@ -46,6 +48,8 @@ const HeaderFive = () => {
   const mobileMenu = () => {
     setActive(!active);
   };
+  const { user } = useUser();
+
   return (
     <header className="nav-header header-layout4">
       <div className="header-top">
@@ -103,11 +107,15 @@ const HeaderFive = () => {
                         </svg>
                       </div>
                       <div className="header-grid-details">
-                        <span className="header-grid-text">Sign In</span>
+                        <span className="header-grid-text">
+                            {user ? user.username : 'Sign In'}
+                        </span>
                         <h6 className="header-grid-title">
-                          <Link to="#">Account</Link>
+                            <Link to="/SignIn">
+                                {user ? user.username : 'Account'}
+                            </Link>
                         </h6>
-                      </div>
+                    </div>
                     </div>
                   </li>
                   <li>

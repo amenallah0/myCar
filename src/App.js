@@ -20,7 +20,10 @@ import WishlistPage from "./pages/WishlistPage";
 import ContactPage from "./pages/ContactPage";
 
 import HomePageSix from "./pages/HomePageSix";
-import SignUPage from "./pages/SignUpPage";
+import SignUpPage from "./pages/SignUpPage";
+import SignInPage from "./pages/SignInPage";
+import Profile from './pages/ProfilePage';
+
 
 
 function App() {
@@ -46,7 +49,11 @@ function App() {
         <Route exact path="/checkout" element={<CheckoutPage />} />
         <Route exact path="/wishlist" element={<WishlistPage />} />
         <Route exact path="/contact" element={<ContactPage />} />
-        <Route exact path="/SignUp" element={<SignUPage />} />
+        <Route exact path="/SignUp" element={<SignUpPage />} />
+        <Route exact path="/SignIn" element={<SignInPage />} />
+        <Route path="/profile/:username" element={<Profile />} />
+
+
 
       </Routes>
     </BrowserRouter>

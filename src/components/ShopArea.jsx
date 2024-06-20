@@ -11,7 +11,7 @@ const ShopArea = () => {
   return (
     <section className="space-top space-extra-bottom">
       <div className="container">
-        <div className="row flex-row-reverse">
+        <div className="row flex-row-reverse align-items-center">
           <div className="col-xl-9 col-lg-8">
             <div className="shop-sort-bar">
               <div className="row justify-content-between align-items-center">
@@ -19,6 +19,12 @@ const ShopArea = () => {
                   <p className="woocommerce-result-count">
                     Showing 1–15 of 52 results
                   </p>
+                </div>
+                <div className="col-md-auto">
+                <div className="col-md-auto">
+                  <Link to="/AddCar" className="btn btn-primary btn-sm-add-car">Add Car</Link>
+                </div>
+
                 </div>
                 <div className="col-md-auto">
                   <form className="woocommerce-ordering" method="get">

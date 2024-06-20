@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom'; 
 import ApiService from '../services/apiUserServices';
+import { GoogleLogin } from 'react-google-login';
 import { useUser } from '../userContext';
 
 function SignIn() {
@@ -28,6 +29,22 @@ function SignIn() {
         }
     };
 
+    const responseGoogle = async (response) => {
+        try {
+            const { email } = response.profileObj;
+            await ApiService.signInUser(email, ''); // No password for Google login
+            alert('Sign in successful!');
+            setEmail('');
+            setPassword('');
+            setUser(response);
+            localStorage.setItem('user', JSON.stringify(response)); // Store user data in local storage
+            navigate('/');
+        } catch (error) {
+            console.error('Error signing in with Google:', error);
+            setError('Failed to sign in with Google. Please try again.');
+        }
+    };
+    
     return (
         <div className="container mt-5 mb-5">
             <div className="row justify-content-center">
@@ -65,6 +82,15 @@ function SignIn() {
                             </form>
                             <div className="form-group text-center">
                                 <p>Don't have an account? <Link to="/SignUp"><button className="btn btn-link" style={{color: 'red', background: 'none', border: 'none', outline: 'none', cursor: 'pointer'}}>Sign Up</button></Link></p>
+                            </div>
+                            <div className="form-group text-center">
+                                <GoogleLogin
+                                    clientId="YOUR_GOOGLE_CLIENT_ID"
+                                    buttonText="Sign In with Google"
+                                    onSuccess={responseGoogle}
+                                    onFailure={responseGoogle}
+                                    cookiePolicy={'single_host_origin'}
+                                />
                             </div>
                         </div>
                     </div>

@@ -641,6 +641,14 @@ progress {
     margin-right: auto;
     margin-left: auto
 }
+.sign-container{
+    width: 50%;
+    height: 15%;
+    padding-right: var(--bs-gutter-x, .75rem);
+    padding-left: var(--bs-gutter-x, .75rem);
+    margin-right: auto;
+    margin-left: 10px;
+}
 
 @media (min-width:576px) {
 
@@ -4245,9 +4253,14 @@ fieldset:disabled .btn {
 .btn-sm {
     padding: .25rem .5rem;
     font-size: .875rem;
-    border-radius: .2rem
+    border-radius: 1rem
 }
-
+.btn-sm-add-car{
+    padding: .25rem .5rem;
+    font-size: .875rem;
+    border-radius: 1rem;
+    margin-right :2rem    
+}
 .fade {
     -webkit-transition: opacity .15s linear;
     transition: opacity .15s linear
@@ -8505,6 +8518,10 @@ fieldset:disabled .btn {
     margin-top: 3rem !important
 }
 
+.mt-6 {
+    margin-top: 5rem !important
+}
+
 .mt-auto {
     margin-top: auto !important
 }
@@ -9025,7 +9042,7 @@ fieldset:disabled .btn {
 }
 
 .rounded {
-    border-radius: .25rem !important
+    border-radius: .75rem !important
 }
 
 .rounded-0 {

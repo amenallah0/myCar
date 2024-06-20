@@ -104,7 +104,7 @@ function SignUp() {
                                     <button type="submit" className="btn btn-primary">Confirm</button>
                                 </div>
                                 <div className="form-group text-center">
-                                <p>Don't have an account? <Link to="/SignUp"><button className="btn btn-link" style={{color: 'red', background: 'none', border: 'none', outline: 'none', cursor: 'pointer'}}>Sign Up</button></Link></p>
+                                <p>You have an account? <Link to="/SignIn"><button className="btn btn-link" style={{color: 'red', background: 'none', border: 'none', outline: 'none', cursor: 'pointer'}}>Sign In</button></Link></p>
                             </div>
                                 <div className="form-group text-center">
                                     <GoogleLogin

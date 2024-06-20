@@ -23,6 +23,7 @@ import HomePageSix from "./pages/HomePageSix";
 import SignUpPage from "./pages/SignUpPage";
 import SignInPage from "./pages/SignInPage";
 import Profile from './pages/ProfilePage';
+import AddCarPage from "./pages/AddCarPage";
 
 
 
@@ -52,6 +53,8 @@ function App() {
         <Route exact path="/SignUp" element={<SignUpPage />} />
         <Route exact path="/SignIn" element={<SignInPage />} />
         <Route path="/profile/:username" element={<Profile />} />
+        <Route path="/AddCar" element={<AddCarPage />} />
+
 
 
 

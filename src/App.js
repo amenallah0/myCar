@@ -24,6 +24,7 @@ import SignUpPage from "./pages/SignUpPage";
 import SignInPage from "./pages/SignInPage";
 import Profile from './pages/ProfilePage';
 import AddCarPage from "./pages/AddCarPage";
+import ShopDetails from "./components/ShopDetails";
 
 
 
@@ -34,7 +35,6 @@ function App() {
       <ScrollToTop smooth color="#E8092E" />
       <Routes>
         <Route exact path="/" element={<HomePageSix />} />
-       
         <Route exact path="/about" element={<AboutPage />} />
         <Route exact path="/service" element={<ServicePage />} />
         <Route exact path="/service-details" element={<ServiceDetailsPage />} />
@@ -45,7 +45,7 @@ function App() {
         <Route exact path="/team" element={<TeamPage />} />
         <Route exact path="/team-details" element={<TeamDetailsPage />} />
         <Route exact path="/shop" element={<ShopPage />} />
-        <Route exact path="/shop-details" element={<ShopDetailsPage />} />
+        <Route exact path="/shop-details/:id" element={<ShopDetailsPage />} />
         <Route exact path="/cart" element={<CartPage />} />
         <Route exact path="/checkout" element={<CheckoutPage />} />
         <Route exact path="/wishlist" element={<WishlistPage />} />
@@ -54,10 +54,6 @@ function App() {
         <Route exact path="/SignIn" element={<SignInPage />} />
         <Route path="/profile/:username" element={<Profile />} />
         <Route path="/AddCar" element={<AddCarPage />} />
-
-
-
-
       </Routes>
     </BrowserRouter>
   );

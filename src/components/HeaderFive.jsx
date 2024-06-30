@@ -168,20 +168,7 @@ const HeaderFive = () => {
                 </div>
               </div>
               <div className="col-auto d-xl-block d-none header-sticky-none">
-                <div className="form-group mb-0">
-                  <select
-                    name="subject"
-                    id="subject"
-                    className="form-select style-border"
-                    defaultValue={"categories"}
-                  >
-                    <option value="categories">All categories</option>
-                    <option value="Construction">Auto Repair</option>
-                    <option value="Real Estate">Car Repair</option>
-                    <option value="Industry">Automotive</option>
-                  </select>
-                  <i className="fas fa-angle-down" />
-                </div>
+                
               </div>
               <div className="col-auto header-sticky-logo">
                 <div className="header-logo">
@@ -213,32 +200,17 @@ const HeaderFive = () => {
                         About Us
                       </NavLink>
                     </li>
-                    <li className="menu-item-has-children">
-                      <Link to="#">Services</Link>
-                      <ul className="sub-menu">
-                        <li>
-                          <NavLink
-                            to="/service"
-                            className={(navData) =>
-                              navData.isActive ? "active" : ""
-                            }
-                          >
-                            Service
-                          </NavLink>
-                        </li>
-                        <li>
-                          <NavLink
-                            to="/service-details"
-                            className={(navData) =>
-                              navData.isActive ? "active" : ""
-                            }
-                          >
-                            Service Details
-                          </NavLink>
-                        </li>
-                      </ul>
+                    <li>
+                      <NavLink
+                        to="/service"
+                        className={(navData) =>
+                          navData.isActive ? "active" : ""
+                        }
+                      >
+                        Service
+                      </NavLink>
                     </li>
-                    <li className="menu-item-has-children">
+                    {/* <li className="menu-item-has-children">
                       <Link to="#">Projects</Link>
                       <ul className="sub-menu">
                         <li>
@@ -262,8 +234,8 @@ const HeaderFive = () => {
                           </NavLink>
                         </li>
                       </ul>
-                    </li>
-                    <li className="menu-item-has-children">
+                    </li> */}
+                    {/* <li className="menu-item-has-children">
                       <Link to="#">Blog</Link>
                       <ul className="sub-menu">
                         <li>
@@ -287,11 +259,11 @@ const HeaderFive = () => {
                           </NavLink>
                         </li>
                       </ul>
-                    </li>
+                    </li> */}
                     <li className="menu-item-has-children">
                       <Link to="#">Pages</Link>
                       <ul className="sub-menu">
-                        <li>
+                        {/* <li>
                           <NavLink
                             to="/team"
                             className={(navData) =>
@@ -300,8 +272,8 @@ const HeaderFive = () => {
                           >
                             Team Page
                           </NavLink>
-                        </li>
-                        <li>
+                        </li> */}
+                        {/* <li>
                           <NavLink
                             to="/team-details"
                             className={(navData) =>
@@ -310,7 +282,7 @@ const HeaderFive = () => {
                           >
                             Team Details
                           </NavLink>
-                        </li>
+                        </li> */}
                         <li>
                           <NavLink
                             to="/shop"

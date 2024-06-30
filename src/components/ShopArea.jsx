@@ -1,13 +1,33 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Slider from "rc-slider";
 import { Link } from "react-router-dom";
+import ApiCarService from '../services/apiCarServices';
+import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer, toast } from 'react-toastify';
 
 const ShopArea = () => {
   const [range, setRange] = useState([0, 100]);
+  const [cars, setCars] = useState([]);
 
   const handleRangeChange = (value) => {
     setRange(value);
   };
+
+  const fetchCars = async () => {
+    try {
+      const response = await ApiCarService.getAllCars();
+      setCars(response);
+      toast.success('Cars fetched successfully');
+    } catch (error) {
+      console.error('Error fetching cars:', error);
+      toast.error('Error fetching cars');
+    }
+  };
+
+  useEffect(() => {
+    fetchCars();
+  }, []);
+
   return (
     <section className="space-top space-extra-bottom">
       <div className="container">
@@ -17,14 +37,11 @@ const ShopArea = () => {
               <div className="row justify-content-between align-items-center">
                 <div className="col-md">
                   <p className="woocommerce-result-count">
-                    Showing 1–15 of 52 results
+                    Showing {cars.length} of {cars.length} results
                   </p>
                 </div>
                 <div className="col-md-auto">
-                <div className="col-md-auto">
                   <Link to="/AddCar" className="btn btn-primary btn-sm-add-car">Add Car</Link>
-                </div>
-
                 </div>
                 <div className="col-md-auto">
                   <form className="woocommerce-ordering" method="get">
@@ -39,12 +56,8 @@ const ShopArea = () => {
                         <option value="popularity">Sort by popularity</option>
                         <option value="rating">Sort by average rating</option>
                         <option value="date">Sort by latest</option>
-                        <option value="price">
-                          Sort by price: low to high
-                        </option>
-                        <option value="price-desc">
-                          Sort by price: high to low
-                        </option>
+                        <option value="price">Sort by price: low to high</option>
+                        <option value="price-desc">Sort by price: high to low</option>
                       </select>
                       <i className="fas fa-angle-down" />
                     </div>
@@ -52,260 +65,22 @@ const ShopArea = () => {
                 </div>
               </div>
             </div>
-            <div className="row gy-4">
-              <div className="col-xl-4 col-md-6">
-                <div className="product-card style2">
-                  <div className="product-img">
-                    <img
-                      src="assets/img/update-img/product/1-1.png"
-                      alt="Fixturbo"
-                    />
-                  </div>
-                  <div className="product-content">
-                    <h3 className="product-title">
-                      <Link to="/shop-details">Engine pistons and cog</Link>
-                    </h3>
-                    <span className="star-rating">
-                      <i className="fas fa-star" />
-                      <i className="fas fa-star" />
-                      <i className="fas fa-star" />
-                      <i className="fas fa-star" />
-                      <i className="fas fa-star" />
-                    </span>
-                    <span className="price">
-                      <del>$30</del> $25
-                    </span>
-                    <Link to="#" className="link-btn">
-                      Add to cart <i className="fas fa-arrow-right" />
-                    </Link>
-                  </div>
-                </div>
-              </div>
-              <div className="col-xl-4 col-md-6">
-                <div className="product-card style2">
-                  <div className="product-img">
-                    <img
-                      src="assets/img/update-img/product/1-2.png"
-                      alt="Fixturbo"
-                    />
-                  </div>
-                  <div className="product-content">
-                    <h3 className="product-title">
-                      <Link to="/shop-details">Exhaust manifold</Link>
-                    </h3>
-                    <span className="star-rating">
-                      <i className="fas fa-star" />
-                      <i className="fas fa-star" />
-                      <i className="fas fa-star" />
-                      <i className="fas fa-star" />
-                      <i className="fas fa-star" />
-                    </span>
-                    <span className="price">
-                      <del>$30</del> $25
-                    </span>
-                    <Link to="#" className="link-btn">
-                      Add to cart <i className="fas fa-arrow-right" />
-                    </Link>
-                  </div>
-                </div>
-              </div>
-              <div className="col-xl-4 col-md-6">
-                <div className="product-card style2">
-                  <div className="product-img">
-                    <img
-                      src="assets/img/update-img/product/1-3.png"
-                      alt="Fixturbo"
-                    />
-                  </div>
-                  <div className="product-content">
-                    <h3 className="product-title">
-                      <Link to="/shop-details">Windshield wiper motor</Link>
-                    </h3>
-                    <span className="star-rating">
-                      <i className="fas fa-star" />
-                      <i className="fas fa-star" />
-                      <i className="fas fa-star" />
-                      <i className="fas fa-star" />
-                      <i className="fas fa-star" />
-                    </span>
-                    <span className="price">
-                      <del>$30</del> $25
-                    </span>
-                    <Link to="#" className="link-btn">
-                      Add to cart <i className="fas fa-arrow-right" />
-                    </Link>
-                  </div>
-                </div>
-              </div>
-              <div className="col-xl-4 col-md-6">
-                <div className="product-card style2">
-                  <div className="product-img">
-                    <img
-                      src="assets/img/update-img/product/1-4.png"
-                      alt="Fixturbo"
-                    />
-                  </div>
-                  <div className="product-content">
-                    <h3 className="product-title">
-                      <Link to="/shop-details">Power steering pump</Link>
-                    </h3>
-                    <span className="star-rating">
-                      <i className="fas fa-star" />
-                      <i className="fas fa-star" />
-                      <i className="fas fa-star" />
-                      <i className="fas fa-star" />
-                      <i className="fas fa-star" />
-                    </span>
-                    <span className="price">
-                      <del>$30</del> $25
-                    </span>
-                    <Link to="#" className="link-btn">
-                      Add to cart <i className="fas fa-arrow-right" />
-                    </Link>
-                  </div>
-                </div>
-              </div>
-              <div className="col-xl-4 col-md-6">
-                <div className="product-card style2">
-                  <div className="product-img">
-                    <img
-                      src="assets/img/update-img/product/1-5.png"
-                      alt="Fixturbo"
-                    />
-                  </div>
-                  <div className="product-content">
-                    <h3 className="product-title">
-                      <Link to="/shop-details">Windshield wiper motor</Link>
-                    </h3>
-                    <span className="star-rating">
-                      <i className="fas fa-star" />
-                      <i className="fas fa-star" />
-                      <i className="fas fa-star" />
-                      <i className="fas fa-star" />
-                      <i className="fas fa-star" />
-                    </span>
-                    <span className="price">
-                      <del>$30</del> $25
-                    </span>
-                    <Link to="#" className="link-btn">
-                      Add to cart <i className="fas fa-arrow-right" />
-                    </Link>
-                  </div>
-                </div>
-              </div>
-              <div className="col-xl-4 col-md-6">
-                <div className="product-card style2">
-                  <div className="product-img">
-                    <img
-                      src="assets/img/update-img/product/1-6.png"
-                      alt="Fixturbo"
-                    />
-                  </div>
-                  <div className="product-content">
-                    <h3 className="product-title">
-                      <Link to="/shop-details">Exhaust manifold</Link>
-                    </h3>
-                    <span className="star-rating">
-                      <i className="fas fa-star" />
-                      <i className="fas fa-star" />
-                      <i className="fas fa-star" />
-                      <i className="fas fa-star" />
-                      <i className="fas fa-star" />
-                    </span>
-                    <span className="price">
-                      <del>$30</del> $25
-                    </span>
-                    <Link to="#" className="link-btn">
-                      Add to cart <i className="fas fa-arrow-right" />
-                    </Link>
-                  </div>
-                </div>
-              </div>
-              <div className="col-xl-4 col-md-6">
-                <div className="product-card style2">
-                  <div className="product-img">
-                    <img
-                      src="assets/img/update-img/product/1-7.png"
-                      alt="Fixturbo"
-                    />
-                  </div>
-                  <div className="product-content">
-                    <h3 className="product-title">
-                      <Link to="/shop-details">Engine pistons and cog</Link>
-                    </h3>
-                    <span className="star-rating">
-                      <i className="fas fa-star" />
-                      <i className="fas fa-star" />
-                      <i className="fas fa-star" />
-                      <i className="fas fa-star" />
-                      <i className="fas fa-star" />
-                    </span>
-                    <span className="price">
-                      <del>$30</del> $25
-                    </span>
-                    <Link to="#" className="link-btn">
-                      Add to cart <i className="fas fa-arrow-right" />
-                    </Link>
-                  </div>
-                </div>
-              </div>
-              <div className="col-xl-4 col-md-6">
-                <div className="product-card style2">
-                  <div className="product-img">
-                    <img
-                      src="assets/img/update-img/product/1-8.png"
-                      alt="Fixturbo"
-                    />
-                  </div>
-                  <div className="product-content">
-                    <h3 className="product-title">
-                      <Link to="/shop-details">Exhaust manifold</Link>
-                    </h3>
-                    <span className="star-rating">
-                      <i className="fas fa-star" />
-                      <i className="fas fa-star" />
-                      <i className="fas fa-star" />
-                      <i className="fas fa-star" />
-                      <i className="fas fa-star" />
-                    </span>
-                    <span className="price">
-                      <del>$30</del> $25
-                    </span>
-                    <Link to="#" className="link-btn">
-                      Add to cart <i className="fas fa-arrow-right" />
-                    </Link>
-                  </div>
-                </div>
-              </div>
-              <div className="col-xl-4 col-md-6">
-                <div className="product-card style2">
-                  <div className="product-img">
-                    <img
-                      src="assets/img/update-img/product/1-9.png"
-                      alt="Fixturbo"
-                    />
-                  </div>
-                  <div className="product-content">
-                    <h3 className="product-title">
-                      <Link to="/shop-details">Windshield wiper motor</Link>
-                    </h3>
-                    <span className="star-rating">
-                      <i className="fas fa-star" />
-                      <i className="fas fa-star" />
-                      <i className="fas fa-star" />
-                      <i className="fas fa-star" />
-                      <i className="fas fa-star" />
-                    </span>
-                    <span className="price">
-                      <del>$30</del> $25
-                    </span>
-                    <Link to="#" className="link-btn">
-                      Add to cart <i className="fas fa-arrow-right" />
-                    </Link>
-                  </div>
+            <div className="row">
+          {cars.map((car) => (
+            <div className="col-md-4 mb-4" key={car.id}>
+              <div className="card">
+                <img src={car.image} className="card-img-top" alt={`${car.make} ${car.model}`} />
+                <div className="card-body">
+                  <h5 className="card-title">{car.make} {car.model}</h5>
+                  <p className="card-text">Price: ${car.price}</p>
+                  <Link to={`/shop-details/${car.id}`} className="link-btn">
+                    View Details <i className="fas fa-arrow-right" />
+                  </Link>
                 </div>
               </div>
             </div>
+          ))}
+        </div>
             <div className="pagination justify-content-center mt-70">
               <ul>
                 <li>
@@ -336,7 +111,7 @@ const ShopArea = () => {
                   </button>
                 </form>
               </div>
-              <div className="widget widget_categories  ">
+              <div className="widget widget_categories">
                 <h3 className="widget_title">Product categories</h3>
                 <ul>
                   <li>
@@ -344,7 +119,7 @@ const ShopArea = () => {
                     <span>(12)</span>
                   </li>
                   <li>
-                    <Link to="/service-details">Suspension spring</Link>{" "}
+                    <Link to="/service-details">Suspension spring</Link>
                     <span>(12)</span>
                   </li>
                   <li>
@@ -369,7 +144,7 @@ const ShopArea = () => {
                   </li>
                 </ul>
               </div>
-              <div className="widget widget_price_filter  ">
+              <div className="widget widget_price_filter">
                 <h4 className="widget_title">Filter By Price</h4>
                 <div style={{ width: "220px", margin: "20px" }}>
                   <Slider
@@ -430,14 +205,60 @@ const ShopArea = () => {
                       <i className="fas fa-star unavailable" />
                       <i className="fas fa-star unavailable" />
                     </span>
-                    <span>(3)</span>
+                    <span>(1)</span>
                   </li>
                 </ul>
+              </div>
+              <div className="widget product-color">
+                <h3 className="widget_title">Sort by Color</h3>
+                <ul>
+                  <li>
+                    <Link to="#">
+                      <span className="product-color" style={{ background: "white" }} />
+                      White
+                    </Link>
+                    <span>(12)</span>
+                  </li>
+                  <li>
+                    <Link to="#">
+                      <span className="product-color" style={{ background: "red" }} />
+                      Red
+                    </Link>
+                    <span>(5)</span>
+                  </li>
+                  <li>
+                    <Link to="#">
+                      <span className="product-color" style={{ background: "black" }} />
+                      Black
+                    </Link>
+                    <span>(8)</span>
+                  </li>
+                  <li>
+                    <Link to="#">
+                      <span className="product-color" style={{ background: "grey" }} />
+                      Grey
+                    </Link>
+                    <span>(10)</span>
+                  </li>
+                  <li>
+                    <Link to="#">
+                      <span className="product-color" style={{ background: "blue" }} />
+                      Blue
+                    </Link>
+                    <span>(7)</span>
+                  </li>
+                </ul>
+              </div>
+              <div className="widget widget_banner_img">
+                <Link to="/">
+                  <img src="assets/img/product/23.jpg" alt="Brand Logo" />
+                </Link>
               </div>
             </aside>
           </div>
         </div>
       </div>
+      <ToastContainer />
     </section>
   );
 };

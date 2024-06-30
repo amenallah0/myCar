@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL = 'http://localhost:8081';
+const API_URL = 'http://localhost:3000';
 
 const api = axios.create({
     baseURL: API_URL,
@@ -19,7 +19,8 @@ const ApiService = {
             });
             return response.data;
         } catch (error) {
-            throw error.response.data;
+            console.error('Sign Up Error:', error);
+            throw error.response ? error.response.data : error;
         }
     },
 
@@ -72,6 +73,8 @@ const ApiService = {
             throw error.response.data;
         }
     },
+   
+    
 };
 
 export default ApiService;

@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import ApiService from '../services/apiUserServices';
 import { GoogleLogin } from 'react-google-login';
 import { Link } from 'react-router-dom'; 
-
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function SignUp() {
     const [username, setUsername] = useState('');
@@ -21,14 +22,14 @@ function SignUp() {
 
         try {
             await ApiService.signUp(username, email, password);
-            alert('Sign up successful! Please log in.');
+            toast.success('Sign up successful! Please log in.');
             setUsername('');
             setEmail('');
             setPassword('');
             setConfirmPassword('');
         } catch (error) {
             console.error('Error creating user:', error);
-            setError('Failed to create user. Please try again.');
+            toast.error('Failed to create user. Please try again.');
         }
     };
 
@@ -36,19 +37,20 @@ function SignUp() {
         try {
             const { name, email } = response.profileObj;
             await ApiService.signUp(name, email, ''); // No password for Google login
-            alert('Sign up successful! Please log in.');
+            toast.success('Sign up successful! Please log in.');
             setUsername('');
             setEmail('');
             setPassword('');
             setConfirmPassword('');
         } catch (error) {
             console.error('Error creating user:', error);
-            setError('Failed to create user. Please try again.');
+            toast.error('Failed to create user. Please try again.');
         }
     };
 
     return (
         <div className="container mt-5 mb-5">
+            <ToastContainer />
             <div className="row justify-content-center">
                 <div className="col-md-6">
                     <div className="card shadow-sm rounded">
@@ -104,8 +106,8 @@ function SignUp() {
                                     <button type="submit" className="btn btn-primary">Confirm</button>
                                 </div>
                                 <div className="form-group text-center">
-                                <p>You have an account? <Link to="/SignIn"><button className="btn btn-link" style={{color: 'red', background: 'none', border: 'none', outline: 'none', cursor: 'pointer'}}>Sign In</button></Link></p>
-                            </div>
+                                    <p>You have an account? <Link to="/SignIn"><button className="btn btn-link" style={{color: 'red', background: 'none', border: 'none', outline: 'none', cursor: 'pointer'}}>Sign In</button></Link></p>
+                                </div>
                                 <div className="form-group text-center">
                                     <GoogleLogin
                                         clientId="YOUR_GOOGLE_CLIENT_ID"

@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom'; 
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import ApiService from '../services/apiUserServices';
 import { GoogleLogin } from 'react-google-login';
 import { useUser } from '../userContext';
@@ -8,7 +10,6 @@ function SignIn() {
     const { setUser } = useUser();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [error, setError] = useState('');
     const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
@@ -17,7 +18,7 @@ function SignIn() {
         try {
             const response = await ApiService.signInUser(email, password);
             console.log('Sign in successful:', response);
-            alert('Sign in successful!');
+            toast.success('Sign in successful!');
             setEmail('');
             setPassword('');
             setUser(response); 
@@ -25,7 +26,7 @@ function SignIn() {
             navigate('/');
         } catch (error) {
             console.error('Error signing in:', error);
-            setError('Failed to sign in. Please check your credentials and try again.');
+            toast.error('Failed to sign in. Please check your credentials and try again.');
         }
     };
 
@@ -33,7 +34,7 @@ function SignIn() {
         try {
             const { email } = response.profileObj;
             await ApiService.signInUser(email, ''); // No password for Google login
-            alert('Sign in successful!');
+            toast.success('Sign in successful!');
             setEmail('');
             setPassword('');
             setUser(response);
@@ -41,7 +42,7 @@ function SignIn() {
             navigate('/');
         } catch (error) {
             console.error('Error signing in with Google:', error);
-            setError('Failed to sign in with Google. Please try again.');
+            toast.error('Failed to sign in with Google. Please try again.');
         }
     };
     
@@ -52,7 +53,6 @@ function SignIn() {
                     <div className="card shadow-sm rounded">
                         <div className="card-body">
                             <h2 className="text-center mb-4">Sign In</h2>
-                            {error && <p className="text-danger text-center">{error}</p>}
                             <form onSubmit={handleSubmit} className="needs-validation" noValidate>
                                 <div className="form-group">
                                     <label htmlFor="email">Email:</label>
@@ -96,6 +96,7 @@ function SignIn() {
                     </div>
                 </div>
             </div>
+            <ToastContainer />
         </div>
     );
 }

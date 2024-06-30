@@ -45,7 +45,11 @@ const ShopDetails = () => {
               <SwiperSlide>
                 <div className="product-thumb">
                   <div className="img">
-                    <img src={car.image} alt={`${car.make} ${car.model}`} />
+                    {/* Use the correct URL to fetch and display the image */}
+                    <img
+                      src={`http://localhost:8081/api/files/download/${car.images[0].filename}`}
+                      alt={`${car.make} ${car.model}`}
+                    />
                   </div>
                   <div className="product-tag">Sale</div>
                 </div>
@@ -81,9 +85,7 @@ const ShopDetails = () => {
                 <p>{car.description}</p>
               </div>
               <div className="mt-3">
-                <button className="btn btn-primary">
-                  Buy Now
-                </button>
+                <button className="btn btn-primary">Buy Now</button>
               </div>
             </div>
           </div>
@@ -91,7 +93,11 @@ const ShopDetails = () => {
 
         {/* Product Tabs */}
         <div className="product-tab-area">
-          <ul className="nav product-tab-style1" id="productTab" role="tablist">
+          <ul
+            className="nav product-tab-style1"
+            id="productTab"
+            role="tablist"
+          >
             <li className="nav-item" role="presentation">
               <a
                 className="nav-link active"

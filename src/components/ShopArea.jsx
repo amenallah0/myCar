@@ -69,7 +69,7 @@ const ShopArea = () => {
           {cars.map((car) => (
             <div className="col-md-4 mb-4" key={car.id}>
               <div className="card">
-                <img src={car.image} className="card-img-top" alt={`${car.make} ${car.model}`} />
+                <img src={`http://localhost:8081/api/files/download/${car.images[0].filename}`} className="card-img-top" alt={`${car.make} ${car.model}`} />
                 <div className="card-body">
                   <h5 className="card-title">{car.make} {car.model}</h5>
                   <p className="card-text">Price: ${car.price}</p>

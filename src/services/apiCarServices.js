@@ -38,7 +38,7 @@ const ApiCarService = {
     addCarWithImagesToUser: async (userId, car, files) => {
         try {
             const formData = new FormData();
-            formData.append('car', JSON.stringify(car));
+            formData.append('car', new Blob([JSON.stringify(car)], { type: 'application/json' }));
             files.forEach((file) => formData.append('files', file));
 
             const response = await api.post(`/cars/user/${userId}/addWithImages`, formData, {

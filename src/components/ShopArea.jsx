@@ -8,15 +8,26 @@ import { ToastContainer, toast } from 'react-toastify';
 const ShopArea = () => {
   const [range, setRange] = useState([0, 100]);
   const [cars, setCars] = useState([]);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [carMakes, setCarMakes] = useState([]);
 
   const handleRangeChange = (value) => {
     setRange(value);
   };
 
-  const fetchCars = async () => {
+  const fetchCars = async (query = "") => {
     try {
       const response = await ApiCarService.getAllCars();
-      setCars(response);
+      const filteredCars = response.filter(car => 
+        car.make.toLowerCase().includes(query.toLowerCase()) ||
+        car.model.toLowerCase().includes(query.toLowerCase())
+      );
+      setCars(filteredCars);
+
+      // Extract unique car makes
+      const makes = [...new Set(filteredCars.map(car => car.make))];
+      setCarMakes(makes);
+
       toast.success('Cars fetched successfully');
     } catch (error) {
       console.error('Error fetching cars:', error);
@@ -25,8 +36,14 @@ const ShopArea = () => {
   };
 
   useEffect(() => {
-    fetchCars();
-  }, []);
+    fetchCars(searchQuery);
+  }, [searchQuery]);
+
+  const handleSearch = (e) => {
+    e.preventDefault();
+    const query = e.target.search.value;
+    setSearchQuery(query);
+  };
 
   return (
     <section className="space-top space-extra-bottom">
@@ -66,21 +83,25 @@ const ShopArea = () => {
               </div>
             </div>
             <div className="row">
-          {cars.map((car) => (
-            <div className="col-md-4 mb-4" key={car.id}>
-              <div className="card">
-                <img src={`http://localhost:8081/api/files/download/${car.images[0].filename}`} className="card-img-top" alt={`${car.make} ${car.model}`} />
-                <div className="card-body">
-                  <h5 className="card-title">{car.make} {car.model}</h5>
-                  <p className="card-text">Price: ${car.price}</p>
-                  <Link to={`/shop-details/${car.id}`} className="link-btn">
-                    View Details <i className="fas fa-arrow-right" />
-                  </Link>
+              {cars.map((car) => (
+                <div className="col-md-4 mb-4" key={car.id}>
+                  <div className="card">
+                    <img
+                      src={`http://localhost:8081/api/files/download/${car.images?.[0]?.filename}`}
+                      className="card-img-top"
+                      alt={`${car.make} ${car.model}`}
+                    />
+                    <div className="card-body">
+                      <h5 className="card-title">{car.make} {car.model}</h5>
+                      <p className="card-text">Price: ${car.price}</p>
+                      <Link to={`/shop-details/${car.id}`} className="link-btn">
+                        View Details <i className="fas fa-arrow-right" />
+                      </Link>
+                    </div>
+                  </div>
                 </div>
-              </div>
+              ))}
             </div>
-          ))}
-        </div>
             <div className="pagination justify-content-center mt-70">
               <ul>
                 <li>
@@ -104,8 +125,8 @@ const ShopArea = () => {
             <aside className="sidebar-sticky-area sidebar-area sidebar-shop">
               <div className="widget widget_search">
                 <h3 className="widget_title">Search</h3>
-                <form className="search-form">
-                  <input type="text" placeholder="Find your product" />
+                <form className="search-form" onSubmit={handleSearch}>
+                  <input type="text" name="search" placeholder="Find your product" />
                   <button type="submit">
                     <i className="fas fa-search" />
                   </button>
@@ -114,34 +135,14 @@ const ShopArea = () => {
               <div className="widget widget_categories">
                 <h3 className="widget_title">Product categories</h3>
                 <ul>
-                  <li>
-                    <Link to="/service-details">Steering wheel</Link>
-                    <span>(12)</span>
-                  </li>
-                  <li>
-                    <Link to="/service-details">Suspension spring</Link>
-                    <span>(12)</span>
-                  </li>
-                  <li>
-                    <Link to="/service-details">Tail light</Link>
-                    <span>(08)</span>
-                  </li>
-                  <li>
-                    <Link to="/service-details">Transmission</Link>
-                    <span>(13)</span>
-                  </li>
-                  <li>
-                    <Link to="/service-details">Windshield wiper motor</Link>
-                    <span>(03)</span>
-                  </li>
-                  <li>
-                    <Link to="/service-details">Fuel injector</Link>
-                    <span>(03)</span>
-                  </li>
-                  <li>
-                    <Link to="/service-details">Find your product</Link>
-                    <span>(03)</span>
-                  </li>
+                  {carMakes.map((make, index) => (
+                    <li key={index}>
+                      <Link to={`/shop-details/${make.toLowerCase()}`}>
+                        {make}
+                      </Link>
+                      <span>({cars.filter(car => car.make === make).length})</span>
+                    </li>
+                  ))}
                 </ul>
               </div>
               <div className="widget widget_price_filter">

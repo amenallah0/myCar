@@ -293,7 +293,7 @@ const HeaderFive = () => {
                             Shop Page
                           </NavLink>
                         </li>
-                        <li>
+                        {/* <li>
                           <NavLink
                             to="/shop-details"
                             className={(navData) =>
@@ -302,7 +302,7 @@ const HeaderFive = () => {
                           >
                             Shop Details
                           </NavLink>
-                        </li>
+                        </li> */}
                         <li>
                           <NavLink
                             to="/cart"

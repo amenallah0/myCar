@@ -1,5 +1,4 @@
-
-
+import React from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import RouteScrollToTop from "./helper/RouteScrollToTop";
 import ScrollToTop from "react-scroll-to-top";
@@ -18,15 +17,11 @@ import CartPage from "./pages/CartPage";
 import CheckoutPage from "./pages/CheckoutPage";
 import WishlistPage from "./pages/WishlistPage";
 import ContactPage from "./pages/ContactPage";
-
 import HomePageSix from "./pages/HomePageSix";
 import SignUpPage from "./pages/SignUpPage";
 import SignInPage from "./pages/SignInPage";
 import Profile from './pages/ProfilePage';
 import AddCarPage from "./pages/AddCarPage";
-import ShopDetails from "./components/ShopDetails";
-
-
 
 function App() {
   return (

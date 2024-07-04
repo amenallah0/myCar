@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import Slider from "rc-slider";
 import { Link } from "react-router-dom";
 import ApiCarService from '../services/apiCarServices';
@@ -8,36 +8,62 @@ import { ToastContainer, toast } from 'react-toastify';
 const ShopArea = () => {
   const [range, setRange] = useState([0, 100]);
   const [cars, setCars] = useState([]);
+  const [filteredCars, setFilteredCars] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [carMakes, setCarMakes] = useState([]);
+  const [maxPrice, setMaxPrice] = useState(600);
+  const [currentPage, setCurrentPage] = useState(1);
+  const carsPerPage = 12;
+  const [favorites, setFavorites] = useState([]);
+
+  useEffect(() => {
+    const storedFavorites = JSON.parse(localStorage.getItem('favoriteCars')) || [];
+    setFavorites(storedFavorites);
+  }, []);
 
   const handleRangeChange = (value) => {
     setRange(value);
   };
 
-  const fetchCars = async (query = "") => {
+  const fetchCars = useCallback(async (query = "") => {
     try {
       const response = await ApiCarService.getAllCars();
-      const filteredCars = response.filter(car => 
+      const filtered = response.filter(car => 
         car.make.toLowerCase().includes(query.toLowerCase()) ||
         car.model.toLowerCase().includes(query.toLowerCase())
       );
-      setCars(filteredCars);
+      setCars(filtered);
 
       // Extract unique car makes
-      const makes = [...new Set(filteredCars.map(car => car.make))];
+      const makes = [...new Set(filtered.map(car => car.make))];
       setCarMakes(makes);
 
-      toast.success('Cars fetched successfully');
+      // Get the highest price and update maxPrice state
+      const highestPrice = Math.max(...filtered.map(car => car.price));
+      setMaxPrice(Math.ceil(highestPrice / 1000) * 1000);
+      setRange([0, Math.ceil(highestPrice / 1000) * 1000]);
+
+      filterByPrice(filtered, [0, Math.ceil(highestPrice / 1000) * 1000]);
     } catch (error) {
       console.error('Error fetching cars:', error);
       toast.error('Error fetching cars');
     }
-  };
+  }, []);
 
   useEffect(() => {
     fetchCars(searchQuery);
-  }, [searchQuery]);
+  }, [searchQuery, fetchCars]);
+
+  useEffect(() => {
+    filterByPrice(cars, range);
+  }, [range, cars]);
+
+  const filterByPrice = (cars, range) => {
+    const [min, max] = range;
+    const filtered = cars.filter(car => car.price >= min && car.price <= max);
+    setFilteredCars(filtered);
+    setCurrentPage(1); // Reset to first page after filtering
+  };
 
   const handleSearch = (e) => {
     e.preventDefault();
@@ -45,16 +71,99 @@ const ShopArea = () => {
     setSearchQuery(query);
   };
 
+  const handlePageChange = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  };
+
+  const totalPages = Math.ceil(filteredCars.length / carsPerPage);
+  const startIdx = (currentPage - 1) * carsPerPage;
+  const endIdx = Math.min(startIdx + carsPerPage, filteredCars.length);
+  const displayedCars = filteredCars.slice(startIdx, endIdx);
+
+  const saveCarToFavorites = (car) => {
+    const existingFavorites = [...favorites];
+    const isAlreadyFavorite = existingFavorites.some(favCar => favCar.id === car.id);
+
+    if (isAlreadyFavorite) {
+      const updatedFavorites = existingFavorites.filter(favCar => favCar.id !== car.id);
+      setFavorites(updatedFavorites);
+      localStorage.setItem('favoriteCars', JSON.stringify(updatedFavorites));
+    } else {
+      const updatedFavorites = [...existingFavorites, car];
+      setFavorites(updatedFavorites);
+      localStorage.setItem('favoriteCars', JSON.stringify(updatedFavorites));
+    }
+  };
+
+  const isCarFavorite = (carId) => {
+    return favorites.some(favCar => favCar.id === carId);
+  };
+
   return (
     <section className="space-top space-extra-bottom">
       <div className="container">
-        <div className="row flex-row-reverse align-items-center">
-          <div className="col-xl-9 col-lg-8">
+        <div className="row flex-row-reverse align-items-start">
+          <div className="col-xl-3 col-lg-4 sidebar-widget-area order-lg-2">
+            <aside className="sidebar-sticky-area sidebar-area sidebar-shop">
+              <div className="widget widget_search">
+                <h3 className="widget_title">Search</h3>
+                <form className="search-form" onSubmit={handleSearch}>
+                  <input type="text" name="search" placeholder="Find your product" />
+                  <button type="submit">
+                    <i className="fas fa-search" />
+                  </button>
+                </form>
+              </div>
+              <div className="widget widget_categories">
+                <h3 className="widget_title">Product categories</h3>
+                <ul>
+                  {carMakes.map((make, index) => (
+                    <li key={index}>
+                      <Link to={`/shop-details/${make.toLowerCase()}`}>
+                        {make}
+                      </Link>
+                      <span>({filteredCars.filter(car => car.make === make).length})</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+              <div className="widget widget_price_filter">
+                <h4 className="widget_title">Filter By Price</h4>
+                <div style={{ width: "220px", margin: "20px" }}>
+                  <Slider
+                    range
+                    min={0}
+                    max={maxPrice}
+                    value={range}
+                    onChange={handleRangeChange}
+                  />
+                  <div
+                    style={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                      marginTop: "10px",
+                    }}
+                  >
+                    <span>{range[0]} TND</span>
+                    <span>{range[1]} TND</span>
+                  </div>
+                </div>
+                <div className="price_slider_wrapper">
+                  <div className="price_slider" />
+                  <div className="price_label">
+                    Price: <span className="from">{range[0]} TND</span> —{" "}
+                    <span className="to">{range[1]} TND</span>
+                  </div>
+                </div>
+              </div>
+            </aside>
+          </div>
+          <div className="col-xl-9 col-lg-8 order-lg-1">
             <div className="shop-sort-bar">
               <div className="row justify-content-between align-items-center">
                 <div className="col-md">
                   <p className="woocommerce-result-count">
-                    Showing {cars.length} of {cars.length} results
+                    Showing {startIdx + 1}-{endIdx} of {filteredCars.length} results
                   </p>
                 </div>
                 <div className="col-md-auto">
@@ -83,7 +192,7 @@ const ShopArea = () => {
               </div>
             </div>
             <div className="row">
-              {cars.map((car) => (
+              {displayedCars.map((car) => (
                 <div className="col-md-4 mb-4" key={car.id}>
                   <div className="card">
                     <img
@@ -93,10 +202,19 @@ const ShopArea = () => {
                     />
                     <div className="card-body">
                       <h5 className="card-title">{car.make} {car.model}</h5>
-                      <p className="card-text">Price: ${car.price}</p>
-                      <Link to={`/shop-details/${car.id}`} className="link-btn">
-                        View Details <i className="fas fa-arrow-right" />
-                      </Link>
+                      <p className="card-text">Price: {car.price} TND</p>
+                      <div style={{ display: 'flex', alignItems: 'center' }}>
+                        <Link to={`/shop-details/${car.id}`} className="link-btn">
+                          View Details <i className="fas fa-arrow-right" />
+                        </Link>
+                        <button 
+                          onClick={() => saveCarToFavorites(car)} 
+                          className="btn btn-favorite"
+                          style={{ marginLeft: "10px", border: "none", background: "none" }}
+                        >
+                          <i className={`fas fa-heart ${isCarFavorite(car.id) ? 'text-danger' : 'text-muted'}`} />
+                        </button>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -104,158 +222,26 @@ const ShopArea = () => {
             </div>
             <div className="pagination justify-content-center mt-70">
               <ul>
-                <li>
-                  <Link to="/blog">1</Link>
-                </li>
-                <li>
-                  <Link to="/blog">2</Link>
-                </li>
-                <li>
-                  <Link to="/blog">3</Link>
-                </li>
-                <li>
-                  <Link to="/blog">
-                    <i className="fas fa-angle-right" />
-                  </Link>
-                </li>
+                {[...Array(totalPages).keys()].map(pageNumber => (
+                  <li key={pageNumber + 1}>
+                    <Link
+                      to="#"
+                      onClick={() => handlePageChange(pageNumber + 1)}
+                      className={pageNumber + 1 === currentPage ? 'active' : ''}
+                    >
+                      {pageNumber + 1}
+                    </Link>
+                  </li>
+                ))}
+                {currentPage < totalPages && (
+                  <li>
+                    <Link to="#" onClick={() => handlePageChange(currentPage + 1)}>
+                      <i className="fas fa-angle-right" />
+                    </Link>
+                  </li>
+                )}
               </ul>
             </div>
-          </div>
-          <div className="col-xl-3 col-lg-4 sidebar-widget-area">
-            <aside className="sidebar-sticky-area sidebar-area sidebar-shop">
-              <div className="widget widget_search">
-                <h3 className="widget_title">Search</h3>
-                <form className="search-form" onSubmit={handleSearch}>
-                  <input type="text" name="search" placeholder="Find your product" />
-                  <button type="submit">
-                    <i className="fas fa-search" />
-                  </button>
-                </form>
-              </div>
-              <div className="widget widget_categories">
-                <h3 className="widget_title">Product categories</h3>
-                <ul>
-                  {carMakes.map((make, index) => (
-                    <li key={index}>
-                      <Link to={`/shop-details/${make.toLowerCase()}`}>
-                        {make}
-                      </Link>
-                      <span>({cars.filter(car => car.make === make).length})</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-              <div className="widget widget_price_filter">
-                <h4 className="widget_title">Filter By Price</h4>
-                <div style={{ width: "220px", margin: "20px" }}>
-                  <Slider
-                    range
-                    min={0}
-                    max={600}
-                    defaultValue={[0, 100]}
-                    value={range}
-                    onChange={handleRangeChange}
-                  />
-                  <div
-                    style={{
-                      display: "flex",
-                      justifyContent: "space-between",
-                      marginTop: "10px",
-                    }}
-                  ></div>
-                </div>
-                <div className="price_slider_wrapper">
-                  <div className="price_slider" />
-                  <div className="price_label">
-                    Price: <span className="from">${range[0]}</span> —{" "}
-                    <span className="to">${range[1]}</span>
-                    <button type="submit" className="button btn">
-                      Filter
-                    </button>
-                  </div>
-                </div>
-              </div>
-              <div className="widget product_ratting_widget">
-                <h3 className="widget_title">Sort by Raiting</h3>
-                <ul>
-                  <li>
-                    <span className="star-rating">
-                      <i className="fas fa-star" />
-                      <i className="fas fa-star" />
-                      <i className="fas fa-star" />
-                      <i className="fas fa-star" />
-                      <i className="fas fa-star unavailable" />
-                    </span>
-                    <span>(12)</span>
-                  </li>
-                  <li>
-                    <span className="star-rating">
-                      <i className="fas fa-star" />
-                      <i className="fas fa-star" />
-                      <i className="fas fa-star" />
-                      <i className="fas fa-star unavailable" />
-                      <i className="fas fa-star unavailable" />
-                    </span>
-                    <span>(5)</span>
-                  </li>
-                  <li>
-                    <span className="star-rating">
-                      <i className="fas fa-star" />
-                      <i className="fas fa-star" />
-                      <i className="fas fa-star unavailable" />
-                      <i className="fas fa-star unavailable" />
-                      <i className="fas fa-star unavailable" />
-                    </span>
-                    <span>(1)</span>
-                  </li>
-                </ul>
-              </div>
-              <div className="widget product-color">
-                <h3 className="widget_title">Sort by Color</h3>
-                <ul>
-                  <li>
-                    <Link to="#">
-                      <span className="product-color" style={{ background: "white" }} />
-                      White
-                    </Link>
-                    <span>(12)</span>
-                  </li>
-                  <li>
-                    <Link to="#">
-                      <span className="product-color" style={{ background: "red" }} />
-                      Red
-                    </Link>
-                    <span>(5)</span>
-                  </li>
-                  <li>
-                    <Link to="#">
-                      <span className="product-color" style={{ background: "black" }} />
-                      Black
-                    </Link>
-                    <span>(8)</span>
-                  </li>
-                  <li>
-                    <Link to="#">
-                      <span className="product-color" style={{ background: "grey" }} />
-                      Grey
-                    </Link>
-                    <span>(10)</span>
-                  </li>
-                  <li>
-                    <Link to="#">
-                      <span className="product-color" style={{ background: "blue" }} />
-                      Blue
-                    </Link>
-                    <span>(7)</span>
-                  </li>
-                </ul>
-              </div>
-              <div className="widget widget_banner_img">
-                <Link to="/">
-                  <img src="assets/img/product/23.jpg" alt="Brand Logo" />
-                </Link>
-              </div>
-            </aside>
           </div>
         </div>
       </div>

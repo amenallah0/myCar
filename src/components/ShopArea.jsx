@@ -15,6 +15,7 @@ const ShopArea = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const carsPerPage = 12;
   const [favorites, setFavorites] = useState([]);
+  const [sortOrder, setSortOrder] = useState("Choose");
 
   useEffect(() => {
     const storedFavorites = JSON.parse(localStorage.getItem('favoriteCars')) || [];
@@ -69,6 +70,24 @@ const ShopArea = () => {
     e.preventDefault();
     const query = e.target.search.value;
     setSearchQuery(query);
+  };
+
+  const handleSortChange = (e) => {
+    const value = e.target.value;
+    setSortOrder(value);
+    sortCars(value);
+  };
+
+  const sortCars = (order) => {
+    const sortedCars = [...filteredCars];
+    if (order === "date") {
+      sortedCars.sort((a, b) => new Date(b.date) - new Date(a.date));
+    } else if (order === "price") {
+      sortedCars.sort((a, b) => a.price - b.price);
+    } else if (order === "price-desc") {
+      sortedCars.sort((a, b) => b.price - a.price);
+    }
+    setFilteredCars(sortedCars);
   };
 
   const handlePageChange = (pageNumber) => {
@@ -169,18 +188,16 @@ const ShopArea = () => {
                 <div className="col-md-auto">
                   <Link to="/AddCar" className="btn btn-primary btn-sm-add-car">Add Car</Link>
                 </div>
-                <div className="col-md-auto">
+                <div className="col-md-3">
                   <form className="woocommerce-ordering" method="get">
                     <div className="form-group mb-0">
                       <select
                         name="orderby"
                         className="single-select orderby"
                         aria-label="Shop order"
-                        defaultValue={"Choose"}
+                        value={sortOrder}
+                        onChange={handleSortChange}
                       >
-                        <option value="Choose">Default Sorting</option>
-                        <option value="popularity">Sort by popularity</option>
-                        <option value="rating">Sort by average rating</option>
                         <option value="date">Sort by latest</option>
                         <option value="price">Sort by price: low to high</option>
                         <option value="price-desc">Sort by price: high to low</option>

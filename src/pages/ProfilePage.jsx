@@ -5,12 +5,12 @@ import Preloader from "../helper/Preloader";
 import Profile from "../components/Profile";
 
 const ProfilePage = () => {
-    let [active, setActive] = useState(true);
-    useEffect(() => {
-      setTimeout(function () {
-        setActive(false);
-      }, 2000);
-    }, []);
+  let [active, setActive] = useState(true);
+  useEffect(() => {
+    setTimeout(function () {
+      setActive(false);
+    }, 2000);
+  }, []);
     return (
       <>
         {/* Preloader */}

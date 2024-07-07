@@ -42,7 +42,6 @@ function SignIn() {
             navigate('/');
         } catch (error) {
             console.error('Error signing in with Google:', error);
-            toast.error('Failed to sign in with Google. Please try again.');
         }
     };
     

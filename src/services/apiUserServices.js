@@ -74,6 +74,23 @@ const ApiService = {
             throw error.response.data;
         }
     },
+    updateUser: async (id, userData) => {
+        try {
+            const response = await api.put(`/users/${id}`, userData);
+            return response.data;
+        } catch (error) {
+            throw error.response.data;
+        }
+    },
+    getCarsByUserId: async (userId) => {
+        try {
+          const response = await api.get(`/cars/user/${userId}`);
+          return response.data;
+        } catch (error) {
+          console.error('Get Cars By User ID Error:', error);
+          throw error.response ? error.response.data : error;
+        }
+      },
 };
 
 export default ApiService;

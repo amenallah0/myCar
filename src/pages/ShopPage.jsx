@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import HeaderOne from "../components/HeaderFive";
 
 import FooterAreaOne from "../components/FooterAreaFour";
-import Breadcrumb from "../components/Breadcrumb";
+// import Breadcrumb from "../components/Breadcrumb";
 import SubscribeOne from "../components/SubscribeTwo";
 import ShopArea from "../components/ShopArea";
 import Preloader from "../helper/Preloader";
@@ -23,7 +23,7 @@ const ShopPage = () => {
       <HeaderOne />
 
       {/* Breadcrumb */}
-      <Breadcrumb title={"Shop"} />
+      {/* <Breadcrumb title={"Shop"} /> */}
 
       {/* Shop Area */}
       <ShopArea />

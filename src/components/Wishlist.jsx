@@ -19,82 +19,43 @@ const Wishlist = () => {
   };
 
   return (
-    <div className="space-top space-extra-bottom">
-      <div className="container">
-        <div className="tinv-wishlist woocommerce tinv-wishlist-clear">
-          <h2>Your Wishlist ({wishlistCount})</h2> {/* Display wishlist count */}
-          <form action="#" method="post" autoComplete="off">
-            <table className="tinvwl-table-manage-list">
-              <thead>
-                <tr>
-                  <th className="product-remove" />
-                  <th className="product-thumbnail">&nbsp;</th>
-                  <th className="product-name">
-                    <span className="tinvwl-full">Product Name</span>
-                    <span className="tinvwl-mobile">Product</span>
-                  </th>
-                  <th className="product-price">Unit Price</th>
-                  <th className="product-stock">Stock Status</th>
-                  <th className="product-action">&nbsp;</th>
-                </tr>
-              </thead>
-              <tbody>
-                {favorites.map((car) => (
-                  <tr className="wishlist_item" key={car.id}>
-                    <td className="product-remove">
-                      <button
-                        type="button"
-                        onClick={() => removeFromFavorites(car.id)}
-                        title="Remove"
-                      >
-                        <i className="fas fa-times" />
-                      </button>
-                    </td>
-                    <td className="product-thumbnail">
-                      <Link to={`/shop-details/${car.id}`}>
-                        <img
-                          src={`http://localhost:8081/api/files/download/${car.images?.[0]?.filename}`}
-                          className="attachment-woocommerce_thumbnail size-woocommerce_thumbnail"
-                          alt={`${car.make} ${car.model}`}
-                        />
-                      </Link>
-                    </td>
-                    <td className="product-name">
-                      <Link to={`/shop-details/${car.id}`}>
-                        {`${car.make} ${car.model}`}
-                      </Link>
-                    </td>
-                    <td className="product-price">
-                      <span className="woocommerce-Price-amount amount">
-                        <bdi>
-                          <span className="woocommerce-Price-currencySymbol">$</span>
-                          {car.price.toFixed(2)}
-                        </bdi>
-                      </span>
-                    </td>
-                    <td className="product-stock">
-                      <p className="stock in-stock">
-                        <span>
-                          <span className="tinvwl-txt">In stock</span>
-                        </span>
-                      </p>
-                    </td>
-                    <td className="product-action">
-                      <button
-                        className="button btn style2"
-                        name="tinvwl-add-to-cart"
-                        title="Add to Cart"
-                        disabled // or remove this button if not needed
-                      >
-                        <span className="tinvwl-txt">Add to Cart</span>
-                      </button>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </form>
-        </div>
+    <div className="container py-4 text-center">
+      <h2 className="mb-6 mt-4 display-5 fw-bold text-uppercase">Your Wishlist </h2>
+
+      <div className="row row-cols-1 row-cols-md-3 g-4">
+        {favorites.map((car) => (
+          <div key={car.id} className="col">
+            <div className="card h-100">
+              <Link to={`/shop-details/${car.id}`}>
+                <img
+                  src={`http://localhost:8081/api/files/download/${car.images?.[0]?.filename}`}
+                  className="card-img-top"
+                  alt={`${car.make} ${car.model}`}
+                />
+              </Link>
+              <div className="card-body">
+                <h5 className="card-title">
+                  <Link to={`/shop-details/${car.id}`}>
+                    {`${car.make} ${car.model}`}
+                  </Link>
+                </h5>
+                <p className="card-text">
+                  <strong>Price:</strong> {car.price.toFixed(2) } TND
+                </p>
+                <p className="card-text">
+                  <span className="badge bg-success">In stock</span>
+                </p>
+                <button
+                  type="button"
+                  className="btn btn-danger"
+                  onClick={() => removeFromFavorites(car.id)}
+                >
+                  Remove
+                </button>
+              </div>
+            </div>
+          </div>
+        ))}
       </div>
     </div>
   );

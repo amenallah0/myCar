@@ -126,12 +126,12 @@ const HeaderFive = () => {
                       </div>
                       <div className="header-grid-details">
                         <span className="header-grid-text">
-                            {user ? user.username : 'Sign In'}
+                          {user ? user.username : 'Sign In'}
                         </span>
                         <h6 className="header-grid-title">
-                            <Link to="/SignIn">
-                                {user ? user.username : 'Account'}
-                            </Link>
+                          <Link to={user ? `/profile/${user.id}` : "/SignIn"}>
+                            {user ? user.username : 'Account'}
+                          </Link>
                         </h6>
                     </div>
                     </div>

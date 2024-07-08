@@ -76,7 +76,16 @@ const ApiCarService = {
             throw error.response.data;
         }
     },
-    
+    getCarsByUserId: async (userId) => {
+        try {
+          const response = await api.get(`/cars/user/${userId}`);
+          return response.data;
+        } catch (error) {
+          console.error('Get Cars By User ID Error:', error);
+          throw error.response ? error.response.data : error;
+        }
+      },
 };
+
 
 export default ApiCarService;

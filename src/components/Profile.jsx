@@ -6,8 +6,9 @@ import {
   Card,
   Button,
   Breadcrumb,
-  BreadcrumbItem,
   Form,
+  Modal,
+  Pagination,
 } from 'react-bootstrap';
 import ApiService from '../services/apiUserServices';
 import ApiCarService from '../services/apiCarServices';
@@ -25,6 +26,16 @@ export default function ProfilePage() {
     address: false,
   });
   const [editedUser, setEditedUser] = useState({});
+  const [showModal, setShowModal] = useState(false);
+  const [expertFormData, setExpertFormData] = useState({
+    specialization: '',
+    experience: '',
+    currentPosition: '',
+    diploma: null,
+  });
+  const [currentPage, setCurrentPage] = useState(1);
+  const [carsPerPage] = useState(4); // Number of cars to display per page
+
   const userId = 1; // Replace with the method you use to get the user's ID
 
   useEffect(() => {
@@ -71,9 +82,7 @@ export default function ProfilePage() {
 
   const handleDeleteCar = async (carId) => {
     try {
-      // Make API call to delete the car
       await ApiCarService.deleteCar(carId);
-      // Update user state after deletion
       const updatedUser = {
         ...user,
         cars: user.cars.filter((car) => car.id !== carId),
@@ -91,12 +100,35 @@ export default function ProfilePage() {
     setEditedUser((prev) => ({ ...prev, [name]: value }));
   };
 
+  const handleExpertFormChange = (e) => {
+    const { name, value, files } = e.target;
+    if (name === 'diploma') {
+      setExpertFormData((prev) => ({ ...prev, diploma: files[0] }));
+    } else {
+      setExpertFormData((prev) => ({ ...prev, [name]: value }));
+    }
+  };
+
+  const handleExpertFormSubmit = async (e) => {
+    e.preventDefault();
+    console.log(expertFormData);
+    setShowModal(false);
+    toast.success('Expert information submitted successfully');
+  };
+
+  // Pagination
+  const indexOfLastCar = currentPage * carsPerPage;
+  const indexOfFirstCar = indexOfLastCar - carsPerPage;
+  const currentCars = user?.cars.slice(indexOfFirstCar, indexOfLastCar);
+
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
+
   if (!user) {
     return <div>Loading...</div>;
   }
 
   return (
-    <section style={{ backgroundColor: '#eee' }}>
+    <section style={{ backgroundColor: '#eee', position: 'relative' }}>
       <Container className="py-5">
         <Row>
           <Col>
@@ -122,7 +154,9 @@ export default function ProfilePage() {
                 />
                 <p className="text-muted mb-3 mt-3">{user.username}</p>
                 <div className="d-flex justify-content-center mb-2">
-                  <Button variant="primary">become an expert</Button>
+                  <Button variant="primary" onClick={() => setShowModal(true)}>
+                    Become an Expert
+                  </Button>
                 </div>
               </Card.Body>
             </Card>
@@ -161,6 +195,7 @@ export default function ProfilePage() {
                               size="sm"
                               variant="success"
                               onClick={() => handleSaveClick(field)}
+                              className="btn-block"
                             >
                               Save
                             </Button>
@@ -169,6 +204,7 @@ export default function ProfilePage() {
                               size="sm"
                               variant="primary"
                               onClick={() => handleEditClick(field)}
+                              className="btn-block"
                             >
                               Edit
                             </Button>
@@ -181,53 +217,137 @@ export default function ProfilePage() {
                 )}
               </Card.Body>
             </Card>
-
-            {/* Displaying User's Cars */}
-            <Card className="mb-4">
-              <Card.Body>
-                <Card.Title className="lead fw-normal mb-3">{user.username}'s Cars</Card.Title>
-                {user.cars.length > 0 ? (
-                  user.cars.map((car) => (
-                    <Card key={car.id} className="mb-3">
-                      <Card.Body>
-                        <Card.Text>Car Model: {car.model}</Card.Text>
-                        <Card.Text>Car Make: {car.make}</Card.Text>
-                        {car.images && car.images.length > 0 && car.images[0].filename ? (
-                          <Card.Img
-                            src={`http://localhost:8081/api/files/download/${car.images[0].filename}`}
-                            alt={car.model}
-                            className="img-fluid mb-2"
-                            style={{ maxHeight: '400px', objectFit: 'cover' }}
-                          />
-                        ) : (
-                          <Card.Text>No Image Available</Card.Text>
-                        )}
-                        <Button
-                          size="sm"
-                          variant="secondary"
-                          className="me-2"
-                          onClick={() => fetchCarDetails(car.id)}
-                        >
-                          View Details
-                        </Button>
-                        <Button
-                          size="sm"
-                          variant="danger"
-                          onClick={() => handleDeleteCar(car.id)}
-                        >
-                          Delete
-                        </Button>
-                      </Card.Body>
-                    </Card>
-                  ))
-                ) : (
-                  <Card.Text>No cars found.</Card.Text>
-                )}
-              </Card.Body>
-            </Card>
           </Col>
         </Row>
+
+        <Row>
+          {currentCars.length > 0 ? (
+            currentCars.map((car, index) => (
+              <Col lg="6" key={car.id}>
+                <Card className="mb-4">
+                  <Card.Body>
+                    <Card.Text>Car Model: {car.model}</Card.Text>
+                    <Card.Text>Car Make: {car.make}</Card.Text>
+                    {car.images && car.images.length > 0 && car.images[0].filename ? (
+                      <Card.Img
+                        src={`http://localhost:8081/api/files/download/${car.images[0].filename}`}
+                        alt={car.model}
+                        className="img-fluid mb-2"
+                        style={{ maxHeight: '400px', objectFit: 'cover' }}
+                      />
+                    ) : (
+                      <Card.Text>No Image Available</Card.Text>
+                    )}
+                    <div className="d-flex justify-content-center">
+                      <Button
+                        size="sm"
+                        variant="secondary"
+                        className="me-2 btn-block"
+                        onClick={() => fetchCarDetails(car.id)}
+                      >
+                        View Details
+                      </Button>
+                      <Button
+                        size="sm"
+                        variant="danger"
+                        onClick={() => handleDeleteCar(car.id)}
+                        className="btn-block"
+                      >
+                        Delete
+                      </Button>
+                    </div>
+                  </Card.Body>
+                </Card>
+              </Col>
+            ))
+          ) : (
+            <Col>
+              <Card.Text>No cars found.</Card.Text>
+            </Col>
+          )}
+        </Row>
+
+        {/* Pagination */}
+        {user.cars.length > carsPerPage && (
+          <Row className="mt-2">
+            <Col>
+              <Pagination className="justify-content-center" size="sm">
+                {[...Array(Math.ceil(user.cars.length / carsPerPage)).keys()].map(
+                  (number) => (
+                    <Pagination.Item
+                      key={number + 1}
+                      active={number + 1 === currentPage}
+                      onClick={() => paginate(number + 1)}
+                    >
+                      {number + 1}
+                    </Pagination.Item>
+                  )
+                )}
+              </Pagination>
+            </Col>
+          </Row>
+        )}
       </Container>
+
+      {/* Expert Form Modal */}
+      <Modal
+        show={showModal}
+        onHide={() => setShowModal(false)}
+        centered
+        className="modal-blur-effect"
+        style={{marginTop:'70px'}}
+      >
+        <Modal.Header closeButton>
+          <Modal.Title>Become an Expert</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <Form onSubmit={handleExpertFormSubmit}>
+            <Form.Group controlId="formSpecialization" className="mt-1">
+              <Form.Label>Specialization</Form.Label>
+              <Form.Control
+                type="text"
+                name="specialization"
+                value={expertFormData.specialization}
+                onChange={handleExpertFormChange}
+                required
+              />
+            </Form.Group>
+            <Form.Group controlId="formExperience" className="mt-1">
+              <Form.Label>Experience (years)</Form.Label>
+              <Form.Control
+                type="number"
+                name="experience"
+                value={expertFormData.experience}
+                onChange={handleExpertFormChange}
+                required
+              />
+            </Form.Group>
+            <Form.Group controlId="formCurrentPosition" className="mt-1">
+              <Form.Label>Current Position</Form.Label>
+              <Form.Control
+                type="text"
+                name="currentPosition"
+                value={expertFormData.currentPosition}
+                onChange={handleExpertFormChange}
+                required
+              />
+            </Form.Group>
+            <Form.Group controlId="formDiploma" className="mt-1">
+              <Form.Label>Upload Diploma</Form.Label>
+              <Form.Control
+                type="file"
+                name="diploma"
+                onChange={handleExpertFormChange}
+                required
+              />
+            </Form.Group>
+            <Button variant="primary" type="submit" className="mt-1 btn-block">
+              Submit
+            </Button>
+          </Form>
+        </Modal.Body>
+      </Modal>
+
       <ToastContainer />
     </section>
   );

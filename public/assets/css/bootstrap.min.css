@@ -13096,3 +13096,7 @@ fieldset:disabled .btn {
         display: none !important
     }
 }
+.modal-blur-effect {
+    backdrop-filter: blur(5px); /* Adjust the blur intensity as needed */
+  }
+  

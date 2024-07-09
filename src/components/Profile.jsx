@@ -4,18 +4,26 @@ import {
   Row,
   Col,
   Card,
-  Button,
   Breadcrumb,
   Form,
   Modal,
   Pagination,
+  OverlayTrigger,
+  Tooltip,
+  Button
 } from 'react-bootstrap';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
 import ApiService from '../services/apiUserServices';
 import ApiCarService from '../services/apiCarServices';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { useUser } from './../userContext'; // Use the useUser hook
 
 export default function ProfilePage() {
+  const { user: contextUser } = useUser();
+  const userId = contextUser?.id;
+
   const [user, setUser] = useState(null);
   const [selectedCar, setSelectedCar] = useState(null);
   const [isEditing, setIsEditing] = useState({
@@ -35,21 +43,22 @@ export default function ProfilePage() {
   });
   const [currentPage, setCurrentPage] = useState(1);
   const [carsPerPage] = useState(4); // Number of cars to display per page
-
-  const userId = 1; // Replace with the method you use to get the user's ID
+  const [isDisconnected, setIsDisconnected] = useState(false); // State for disconnect functionality
 
   useEffect(() => {
-    const fetchUserData = async () => {
-      try {
-        const userData = await ApiService.getUserById(userId);
-        setUser(userData);
-        setEditedUser(userData);
-      } catch (error) {
-        console.error('Error fetching user data:', error);
-      }
-    };
+    if (userId) {
+      const fetchUserData = async () => {
+        try {
+          const userData = await ApiService.getUserById(userId);
+          setUser(userData);
+          setEditedUser(userData);
+        } catch (error) {
+          console.error('Error fetching user data:', error);
+        }
+      };
 
-    fetchUserData();
+      fetchUserData();
+    }
   }, [userId]);
 
   const fetchCarDetails = async (carId) => {
@@ -116,6 +125,12 @@ export default function ProfilePage() {
     toast.success('Expert information submitted successfully');
   };
 
+  const handleDisconnect = () => {
+    // Implement disconnect logic here, e.g., log out the user, clear session, etc.
+    setIsDisconnected(true);
+    // Add further logic as per your application's requirements
+  };
+
   // Pagination
   const indexOfLastCar = currentPage * carsPerPage;
   const indexOfFirstCar = indexOfLastCar - carsPerPage;
@@ -131,13 +146,25 @@ export default function ProfilePage() {
     <section style={{ backgroundColor: '#eee', position: 'relative' }}>
       <Container className="py-5">
         <Row>
-          <Col>
+          <Col className="d-flex justify-content-between align-items-center">
             <Breadcrumb className="bg-light rounded-3 p-3 mb-4">
               <Breadcrumb.Item>
                 <a href="/">Home</a>
               </Breadcrumb.Item>
               <Breadcrumb.Item active>User Profile</Breadcrumb.Item>
             </Breadcrumb>
+            <OverlayTrigger
+              placement="left"
+              overlay={<Tooltip>Disconnect</Tooltip>}
+            >
+              <div
+                onClick={handleDisconnect}
+                className="d-flex align-items-center cursor-pointer"
+                style={{ cursor: 'pointer', color: 'red' }}
+              >
+                <FontAwesomeIcon icon={faSignOutAlt} size="lg" />
+              </div>
+            </OverlayTrigger>
           </Col>
         </Row>
 
@@ -295,7 +322,7 @@ export default function ProfilePage() {
         onHide={() => setShowModal(false)}
         centered
         className="modal-blur-effect"
-        style={{marginTop:'70px'}}
+        style={{ marginTop: '70px' }}
       >
         <Modal.Header closeButton>
           <Modal.Title>Become an Expert</Modal.Title>

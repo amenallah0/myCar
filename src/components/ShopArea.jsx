@@ -15,7 +15,7 @@ const ShopArea = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const carsPerPage = 12;
   const [favorites, setFavorites] = useState([]);
-  const [sortOrder, setSortOrder] = useState("Choose");
+  const [sortOrder, setSortOrder] = useState("date"); // Default sort by latest added
 
   useEffect(() => {
     const storedFavorites = JSON.parse(localStorage.getItem('favoriteCars')) || [];
@@ -59,6 +59,10 @@ const ShopArea = () => {
     filterByPrice(cars, range);
   }, [range, cars]);
 
+  useEffect(() => {
+    sortCars(sortOrder, cars); // Ensure sorting is applied when sortOrder changes
+  }, [sortOrder, cars]);
+
   const filterByPrice = (cars, range) => {
     const [min, max] = range;
     const filtered = cars.filter(car => car.price >= min && car.price <= max);
@@ -75,13 +79,12 @@ const ShopArea = () => {
   const handleSortChange = (e) => {
     const value = e.target.value;
     setSortOrder(value);
-    sortCars(value);
   };
 
-  const sortCars = (order) => {
-    const sortedCars = [...filteredCars];
+  const sortCars = (order, carsToSort) => {
+    const sortedCars = [...carsToSort]; // Sort the entire list of cars, not just filteredCars
     if (order === "date") {
-      sortedCars.sort((a, b) => new Date(b.date) - new Date(a.date));
+      sortedCars.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)); // Sort by createdAt field
     } else if (order === "price") {
       sortedCars.sort((a, b) => a.price - b.price);
     } else if (order === "price-desc") {
@@ -216,6 +219,7 @@ const ShopArea = () => {
                       src={`http://localhost:8081/api/files/download/${car.images?.[0]?.filename}`}
                       className="card-img-top"
                       alt={`${car.make} ${car.model}`}
+                      style={{ height: "300px", objectFit: "cover" }} // Adjust image size here
                     />
                     <div className="card-body">
                       <h5 className="card-title">{car.make} {car.model}</h5>

@@ -8581,6 +8581,20 @@ fieldset:disabled .btn {
 .mb-6 {
     margin-bottom: 4rem !important
 }
+
+.ml-1{
+    margin-left: 1rem !important
+}
+
+.ml-2{
+    margin-left: 2rem !important
+}
+
+.ml-3{
+    margin-left: 3rem !important
+}
+
+
 .mb-auto {
     margin-bottom: auto !important
 }

@@ -1,22 +1,21 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import ApiCarService from "../services/apiCarServices";
-import { Swiper, SwiperSlide } from "swiper/react";
-import "swiper/swiper.min.css";
+import { Carousel } from 'react-responsive-carousel';
+import 'react-responsive-carousel/lib/styles/carousel.min.css';
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { Link } from "react-router-dom";
 
 const ShopDetails = () => {
   const { id } = useParams();
   const [car, setCar] = useState(null);
+  const [selectedImageIndex, setSelectedImageIndex] = useState(0); // State to track selected image index
 
   useEffect(() => {
     const fetchCarDetails = async () => {
       try {
         const response = await ApiCarService.getCarById(id);
         setCar(response);
-        toast.success("Car details fetched successfully");
       } catch (error) {
         console.error("Error fetching car details:", error);
         toast.error("Error fetching car details");
@@ -36,30 +35,44 @@ const ShopDetails = () => {
       All of this is available at a price of $${car.price}.`;
   };
 
+  const handleThumbnailClick = (index) => {
+    setSelectedImageIndex(index); // Update selected image index on thumbnail click
+  };
+
   return (
     <section className="product-details space-top">
       <div className="container">
-        <div className="row gx-80">
+        <div className="row gx-4">
           <div className="col-lg-6">
-            <Swiper>
-              <SwiperSlide>
-                <div className="product-thumb">
-                  <div className="img">
-                    {/* Use the correct URL to fetch and display the image */}
-                    <img
-                      src={`http://localhost:8081/api/files/download/${car.images[0].filename}`}
-                      alt={`${car.make} ${car.model}`}
-                    />
-                  </div>
-                  <div className="product-tag">Sale</div>
+            <Carousel showThumbs={false} infiniteLoop autoPlay selectedItem={selectedImageIndex}>
+              {car.images.map((image, index) => (
+                <div key={index}>
+                  <img
+                    src={`http://localhost:8081/api/files/download/${image.filename}`}
+                    alt={`${car.make} ${car.model}`}
+                    style={{ maxHeight: '450px', width: '100%', objectFit: 'cover' }}
+                  />
                 </div>
-              </SwiperSlide>
-            </Swiper>
+              ))}
+            </Carousel>
+            <div className="row mt-4 justify-content-center">
+              {car.images.map((image, index) => (
+                <div key={index} className="col-3 text-center mb-3">
+                  <img
+                    src={`http://localhost:8081/api/files/download/${image.filename}`}
+                    alt={`${car.make} ${car.model}`}
+                    className={`img-thumbnail ${index === selectedImageIndex ? 'active' : ''}`}
+                    style={{ cursor: 'pointer', maxHeight: '85px', width: '100%', objectFit: 'cover' }}
+                    onClick={() => handleThumbnailClick(index)} // Handle thumbnail click
+                  />
+                </div>
+              ))}
+            </div>
           </div>
-          <div className="col-lg-6 align-self-center">
+          <div className="col-lg-6 mt-4 mt-lg-0">
             <div className="product-about">
               <p className="price">
-                ${car.price} <del>${car.previousPrice}</del>
+                {car.price} TND {car.previousPrice}
               </p>
               <h2 className="product-title">
                 {car.make} {car.model}
@@ -92,12 +105,8 @@ const ShopDetails = () => {
         </div>
 
         {/* Product Tabs */}
-        <div className="product-tab-area">
-          <ul
-            className="nav product-tab-style1"
-            id="productTab"
-            role="tablist"
-          >
+        <div className="product-tab-area mt-4">
+          <ul className="nav product-tab-style1" id="productTab" role="tablist">
             <li className="nav-item" role="presentation">
               <a
                 className="nav-link active"

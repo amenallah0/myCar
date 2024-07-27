@@ -9182,6 +9182,46 @@ fieldset:disabled .btn {
     color: #0d6efd !important
 }
 
+.text-shop-primary {
+    color: #a52834 !important
+}
+/* Custom colors */
+.text-primary-custom {
+    color: #007bff !important; /* Your desired primary color */
+  }
+  
+  .text-secondary-custom {
+    color: #6c757d !important; /* Your desired secondary color */
+  }
+  
+  .table-custom th {
+    background-color: #f8f9fa !important; /* Background color for table headers */
+    color: #343a40 !important; /* Text color for table headers */
+  }
+  
+  .table-custom td {
+    color: #495057 !important; /* Text color for table cells */
+  }
+  
+  .price {
+    color: #28a745 !important; /* Color for the price text */
+  }
+  
+  .price .text-muted {
+    color: #6c757d !important; /* Color for the previous price text */
+  }
+  
+  .btn-primary-custom {
+    background-color: #000 !important; /* Button background color */
+    border-color: #000 !important; /* Button border color */
+  }
+  
+  .btn-primary-custom:hover {
+    background-color: #333 !important; /* Button hover background color */
+    border-color: #333 !important; /* Button hover border color */
+  }
+  
+
 .text-secondary {
     color: #6c757d !important
 }

@@ -85,6 +85,15 @@ const ApiCarService = {
           throw error.response ? error.response.data : error;
         }
       },
+      getLatestCars: async () => {
+        try {
+            const response = await api.get('/cars/latest');
+            return response.data;
+        } catch (error) {
+            console.error("API Error:", error); // Log API errors
+            throw error.response.data;
+        }
+    },
 };
 
 

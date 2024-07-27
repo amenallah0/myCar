@@ -18,6 +18,7 @@ const ShopArea = () => {
   const carsPerPage = 12;
   const [favorites, setFavorites] = useState([]);
   const [sortOrder, setSortOrder] = useState("date");
+  const [selectedCategory, setSelectedCategory] = useState("");
 
   useEffect(() => {
     const storedFavorites = JSON.parse(localStorage.getItem('favoriteCars')) || [];
@@ -28,12 +29,13 @@ const ShopArea = () => {
     setRange(value);
   };
 
-  const fetchCars = useCallback(async (query = "") => {
+  const fetchCars = useCallback(async (query = "", category = "") => {
     try {
       const response = await ApiCarService.getAllCars();
       const filtered = response.filter(car => 
-        car.make.toLowerCase().includes(query.toLowerCase()) ||
-        car.model.toLowerCase().includes(query.toLowerCase())
+        (car.make.toLowerCase().includes(query.toLowerCase()) ||
+        car.model.toLowerCase().includes(query.toLowerCase())) &&
+        (category === "" || car.make === category)
       );
       setCars(filtered);
 
@@ -52,8 +54,8 @@ const ShopArea = () => {
   }, []);
 
   useEffect(() => {
-    fetchCars(searchQuery);
-  }, [searchQuery, fetchCars]);
+    fetchCars(searchQuery, selectedCategory);
+  }, [searchQuery, selectedCategory, fetchCars]);
 
   useEffect(() => {
     filterByPrice(cars, range);
@@ -137,6 +139,11 @@ const ShopArea = () => {
     );
   };
 
+  const handleCategoryChange = (category) => {
+    setSelectedCategory(category);
+    fetchCars(searchQuery, category);
+  };
+
   return (
     <section className="space-top space-extra-bottom">
       <div className="container">
@@ -155,9 +162,14 @@ const ShopArea = () => {
               <div className="widget widget_categories">
                 <h3 className="widget_title">Product categories</h3>
                 <ul className="list-unstyled">
+                  <li>
+                    <Link to="#" onClick={() => handleCategoryChange("")}>
+                      All <span className="ml-2">({filteredCars.length})</span>
+                    </Link>
+                  </li>
                   {carMakes.map((make, index) => (
                     <li key={index}>
-                      <Link to={`/shop-details/${make.toLowerCase()}`}>
+                      <Link to="#" onClick={() => handleCategoryChange(make)}>
                         {make}
                       </Link>
                       <span className="ml-2">({filteredCars.filter(car => car.make === make).length})</span>

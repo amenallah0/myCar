@@ -82,7 +82,7 @@ const ShopDetails = () => {
             </div>
           </div>
           <div className="col-lg-6 mt-4 mt-lg-0">
-            <div className="product-about p-3 border rounded shadow-sm ml-3">
+            <div className="product-about p-3 border rounded shadow-sm ml-3 ">
               <div className="d-flex justify-content-between align-items-center">
                 <h2 className="text-primary-custom h3"style={{textDecoration:"underline"}}>
                   {car.make} {car.model}
@@ -115,9 +115,11 @@ const ShopDetails = () => {
               <div className="product-description mt-4">
                 <p>{car.description}</p>
               </div>
-              <div className="mt-3">
-                <button className="btn btn-primary-custom btn-lg w-100">Buy Now</button>
+              <div className="d-flex justify-content-center mt-3">
+                <button className="btn btn-primary-custom btn-lg mx-auto">Buy Now</button>
+                <button className="btn btn-primary-custom btn-lg mx-auto">Demande An Expert</button>
               </div>
+
             </div>
           </div>
 

@@ -7,7 +7,7 @@ const FaqAreaThree = () => {
         <div
           className="faq-wrap space"
           style={{
-            backgroundImage: "url(assets/img/update-img/faq.jpg)",
+            backgroundImage: "url(/assets/img/ask.jpg)",
             backgroundColor: "#F4F4F4",
             backgroundSize: "cover",
           }}
@@ -17,7 +17,7 @@ const FaqAreaThree = () => {
               <div className="title-area text-center">
                 <span className="sub-title">ask anything</span>
                 <h2 className="sec-title">
-                  Empowering Businesses For A Brighter Future
+                  MyCar Is Your Best Solution
                 </h2>
               </div>
             </div>
@@ -34,7 +34,7 @@ const FaqAreaThree = () => {
                       aria-controls="collapse-1"
                     >
                       {" "}
-                      What is the purpose of a business plan?
+                      What Is The Purpose Of Our Business ?
                     </button>
                   </div>
                   <div
@@ -45,11 +45,9 @@ const FaqAreaThree = () => {
                   >
                     <div className="accordion-body">
                       <p className="faq-text">
-                        Some essential steps to start a business include
-                        conducting market research, creating Some essential
-                        steps to start a business.Some essential steps to start
-                        a business include conducting market research, creating
-                        Some essential steps to start a business.
+                      We aim to connect buyers with a wide range of car options, allowing them to explore various models, compare prices, and make informed decisions with ease. 
+                      By leveraging advanced search features, detailed car listings, and reliable customer support,
+                       our platform strives to enhance the overall car-buying experience and ensure that customers find the perfect vehicle to meet their needs.
                       </p>
                     </div>
                   </div>
@@ -65,7 +63,7 @@ const FaqAreaThree = () => {
                       aria-controls="collapse-2"
                     >
                       {" "}
-                      How can I register my business name?
+                      What Should I Do ?
                     </button>
                   </div>
                   <div
@@ -76,11 +74,9 @@ const FaqAreaThree = () => {
                   >
                     <div className="accordion-body">
                       <p className="faq-text">
-                        Some essential steps to start a business include
-                        conducting market research, creating Some essential
-                        steps to start a business.Some essential steps to start
-                        a business include conducting market research, creating
-                        Some essential steps to start a business.
+                      To get started, first create an account on our platform to access all our features and services. 
+                      Once registered, you can search for your ideal car using our advanced search tools, 
+                      filtering by make, model, price, and more to find options that match your preferences.
                       </p>
                     </div>
                   </div>
@@ -96,7 +92,7 @@ const FaqAreaThree = () => {
                       aria-controls="collapse-3"
                     >
                       {" "}
-                      How can I protect my intellectual property?
+                      What Makes This Platform The Best Solution ?
                     </button>
                   </div>
                   <div
@@ -107,11 +103,8 @@ const FaqAreaThree = () => {
                   >
                     <div className="accordion-body">
                       <p className="faq-text">
-                        Some essential steps to start a business include
-                        conducting market research, creating Some essential
-                        steps to start a business.Some essential steps to start
-                        a business include conducting market research, creating
-                        Some essential steps to start a business.
+                      What sets us apart is our dedicated team of experts who are readily available to provide personalized assistance and answer any specific questions you may have. 
+                      This ensures that you receive valuable insights and support throughout your car-buying journey, making the process smoother and more informed.
                       </p>
                     </div>
                   </div>

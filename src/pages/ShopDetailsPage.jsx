@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import HeaderOne from "../components/HeaderFive";
-
 import FooterAreaOne from "../components/FooterAreaFour";
 import Breadcrumb from "../components/Breadcrumb";
 import SubscribeOne from "../components/SubscribeTwo";

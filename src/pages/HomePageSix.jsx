@@ -34,24 +34,22 @@ const HomePageSix = () => {
       <CategoryAreaOne />
 
       {/* Product Area One */}
-      <ProductAreaOne />
+      {/* <ProductAreaOne /> */}
 
       {/* CTA Area Two */}
-      <CTAAreaTwo />
+      {/* <CTAAreaTwo /> */}
 
       {/* Product Area Two */}
-      <ProductAreaTwo />
+      {/* <ProductAreaTwo /> */}
 
       {/* Faq Area three */}
       <FaqAreaThree />
 
       {/* Client Area Four */}
-      <ClientAreaFour />
+      {/* <ClientAreaFour /> */}
 
       {/* Blog Area Two */}
-      <div className="space-top">
         <BlogAreaTwo />
-      </div>
 
       {/* Subscribe Two */}
       <SubscribeTwo />

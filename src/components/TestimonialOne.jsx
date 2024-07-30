@@ -4,7 +4,7 @@ import { Navigation, FreeMode, Thumbs, EffectFade } from "swiper";
 const TestimonialOne = () => {
   return (
     <div
-      className="testimonial-area-1 overflow-hidden"
+      className="testimonial-area-0 overflow-hidden"
       style={{ backgroundImage: "url(assets/img/testimonial/testimonial.jpg)" }}
     >
       <div className="container">
@@ -17,10 +17,10 @@ const TestimonialOne = () => {
           <div className="col-lg-6">
             <div className="space">
               <div className="title-area">
-                <span className="sub-title">Clients testimonial</span>
+                <span className="sub-title">Why Choose Us</span>
 
                 <h2 className="sec-title text-white">
-                  Car Repair The Best <br /> Services
+                  We Give You The Best <br /> Services
                 </h2>
               </div>
               <div className="row global-carousel testi-slider-1">
@@ -33,7 +33,7 @@ const TestimonialOne = () => {
                   spaceBetween={20}
                   slidesPerGroup={1}
                   speed={1000}
-                  autoplay={{ delay: 6000 }}
+                  autoplay={{ delay: 3000 }}
                   pagination={true}
                   className="mySwiper"
                   modules={[FreeMode, Navigation, Thumbs, EffectFade]}
@@ -65,11 +65,9 @@ const TestimonialOne = () => {
                           <div className="testi-card-profile">
                             <div className="testi-card-profile-details">
                               <h4 className="testi-profile-title">
-                                Nafiz Bhuiyan
+                              User-Friendly Interface
                               </h4>
-                              <span className="testi-profile-desig">
-                                Customer
-                              </span>
+                              
                             </div>
                             <div className="quote-icon">
                               <img
@@ -79,19 +77,11 @@ const TestimonialOne = () => {
                             </div>
                           </div>
                           <p className="testi-card_text">
-                            Roof services include repairs installations, and
-                            maintena resident commercial buildings. Expert the a
-                            technicians diagnose and ther address issues roofing
-                            mater gutter systems, and ventilation a Roof
-                            services
+                          Our website is designed with you in mind, 
+                          offering easy navigation and intuitive search features to help 
+                          you find what you’re looking for without hassle.
                           </p>
-                          <div className="rating">
-                            <i className="fas fa-star" />
-                            <i className="fas fa-star" />
-                            <i className="fas fa-star" />
-                            <i className="fas fa-star" />
-                            <i className="fas fa-star" />
-                          </div>
+                          
                         </div>
                       </div>
                     </div>
@@ -103,11 +93,8 @@ const TestimonialOne = () => {
                           <div className="testi-card-profile">
                             <div className="testi-card-profile-details">
                               <h4 className="testi-profile-title">
-                                Nafiz Bhuiyan
+                              Comprehensive Information
                               </h4>
-                              <span className="testi-profile-desig">
-                                Customer
-                              </span>
                             </div>
                             <div className="quote-icon">
                               <img
@@ -117,19 +104,12 @@ const TestimonialOne = () => {
                             </div>
                           </div>
                           <p className="testi-card_text">
-                            Roof services include repairs installations, and
-                            maintena resident commercial buildings. Expert the a
-                            technicians diagnose and ther address issues roofing
-                            mater gutter systems, and ventilation a Roof
-                            services
+                          We believe in transparency. 
+                          Our listings come with detailed information 
+                          and high-resolution images, 
+                          allowing you to make well-informed decisions.
                           </p>
-                          <div className="rating">
-                            <i className="fas fa-star" />
-                            <i className="fas fa-star" />
-                            <i className="fas fa-star" />
-                            <i className="fas fa-star" />
-                            <i className="fas fa-star" />
-                          </div>
+                          
                         </div>
                       </div>
                     </div>
@@ -141,11 +121,9 @@ const TestimonialOne = () => {
                           <div className="testi-card-profile">
                             <div className="testi-card-profile-details">
                               <h4 className="testi-profile-title">
-                                Nafiz Bhuiyan
+                              Expert Support
                               </h4>
-                              <span className="testi-profile-desig">
-                                Customer
-                              </span>
+                              
                             </div>
                             <div className="quote-icon">
                               <img
@@ -155,19 +133,11 @@ const TestimonialOne = () => {
                             </div>
                           </div>
                           <p className="testi-card_text">
-                            Roof services include repairs installations, and
-                            maintena resident commercial buildings. Expert the a
-                            technicians diagnose and ther address issues roofing
-                            mater gutter systems, and ventilation a Roof
-                            services
+                          Our dedicated support team is always ready to assist you. 
+                          Whether you have questions about a listing or need help with the buying process, 
+                          we’re here for you.
                           </p>
-                          <div className="rating">
-                            <i className="fas fa-star" />
-                            <i className="fas fa-star" />
-                            <i className="fas fa-star" />
-                            <i className="fas fa-star" />
-                            <i className="fas fa-star" />
-                          </div>
+                          
                         </div>
                       </div>
                     </div>

@@ -76,7 +76,7 @@ const HeaderFive = () => {
             <div className="col-auto d-none d-lg-block">
               <div className="header-logo">
                 <Link to="/">
-                  <img src="assets/img/logo.png" alt="MyCar" width="180px" height="50px" style={{ borderRadius: '10px' }} />
+                  <img src="/assets/img/logo.png" alt="MyCar" width="180px" height="50px" style={{ borderRadius: '10px' }} />
                 </Link>
               </div>
             </div>
@@ -88,7 +88,7 @@ const HeaderFive = () => {
                     type="text"
                     placeholder="Find your product"
                   />
-                  <select
+                  {/* <select
                     name="subject"
                     id="subject"
                     className="form-select"
@@ -98,7 +98,7 @@ const HeaderFive = () => {
                     <option value="Construction">Auto Repair</option>
                     <option value="Real Estate">Car Repair</option>
                     <option value="Industry">Automotive</option>
-                  </select>
+                  </select> */}
                   <button className="icon-btn" type="submit">
                     <i className="fas fa-search" />
                   </button>
@@ -157,7 +157,7 @@ const HeaderFive = () => {
               <div className="col-auto d-lg-none d-block">
                 <div className="header-logo">
                   <Link to="/">
-                  <img src="assets/img/logo.png" alt="MyCar" width="180px" height="50px" style={{ borderRadius: '10px' }} />
+                  <img src="/assets/img/logo.png" alt="MyCar" width="180px" height="50px" style={{ borderRadius: '10px' }} />
                   </Link>
                 </div>
               </div>
@@ -167,7 +167,7 @@ const HeaderFive = () => {
               <div className="col-auto header-sticky-logo">
                 <div className="header-logo">
                   <Link to="/">
-                  <img src="assets/img/logo.png" alt="MyCar" width="180px" height="50px" style={{ borderRadius: '10px' }} />
+                  <img src="/assets/img/logo.png" alt="MyCar" width="180px" height="50px" style={{ borderRadius: '10px' }} />
                   </Link>
                 </div>
               </div>
@@ -184,17 +184,8 @@ const HeaderFive = () => {
                       Home
                     </NavLink>
                   </li>
-                    <li>
-                      <NavLink
-                        to="/about"
-                        className={(navData) =>
-                          navData.isActive ? "active" : ""
-                        }
-                      >
-                        About Us
-                      </NavLink>
-                    </li>
-                    <li>
+                   
+                    {/* <li>
                       <NavLink
                         to="/service"
                         className={(navData) =>
@@ -203,7 +194,7 @@ const HeaderFive = () => {
                       >
                         Service
                       </NavLink>
-                    </li>
+                    </li> */}
                     {/* <li className="menu-item-has-children">
                       <Link to="#">Projects</Link>
                       <ul className="sub-menu">
@@ -254,10 +245,10 @@ const HeaderFive = () => {
                         </li>
                       </ul>
                     </li> */}
-                    <li className="menu-item-has-children">
+                    {/* <li className="menu-item-has-children">
                       <Link to="#">Pages</Link>
                       <ul className="sub-menu">
-                        {/* <li>
+                        <li>
                           <NavLink
                             to="/team"
                             className={(navData) =>
@@ -266,8 +257,8 @@ const HeaderFive = () => {
                           >
                             Team Page
                           </NavLink>
-                        </li> */}
-                        {/* <li>
+                        </li> 
+                        <li>
                           <NavLink
                             to="/team-details"
                             className={(navData) =>
@@ -276,7 +267,7 @@ const HeaderFive = () => {
                           >
                             Team Details
                           </NavLink>
-                        </li> */}
+                        </li>
                         <li>
                           <NavLink
                             to="/shop"
@@ -287,7 +278,7 @@ const HeaderFive = () => {
                             Shop Page
                           </NavLink>
                         </li>
-                        {/* <li>
+                        <li>
                           <NavLink
                             to="/shop-details"
                             className={(navData) =>
@@ -296,7 +287,7 @@ const HeaderFive = () => {
                           >
                             Shop Details
                           </NavLink>
-                        </li> */}
+                        </li>
                         <li>
                           <NavLink
                             to="/cart"
@@ -328,7 +319,7 @@ const HeaderFive = () => {
                           </NavLink>
                         </li>
                       </ul>
-                    </li>
+                    </li> */}
                     <li>
                       <NavLink
                         to="/shop"
@@ -337,6 +328,29 @@ const HeaderFive = () => {
                         Shop Page
                       </NavLink>
                     </li>
+
+                    <li>
+                      <NavLink
+                        to="/wishlist"
+                        className={(navData) =>
+                          navData.isActive ? "active" : ""
+                        }
+                      >
+                        Wishlist
+                      </NavLink>
+                    </li>
+                    
+                    <li>
+                      <NavLink
+                        to="/about"
+                        className={(navData) =>
+                          navData.isActive ? "active" : ""
+                        }
+                      >
+                        About Us
+                      </NavLink>
+                    </li>
+                    
                     <li>
                       <NavLink
                         to="/contact"
@@ -399,7 +413,7 @@ const HeaderFive = () => {
           <div className="mobile-menu-area">
             <div className="mobile-logo">
               <Link to="/">
-              <img src="assets/img/logo.png" alt="MyCar" width="180px" height="50px" style={{ borderRadius: '10px' }} />
+              <img src="/assets/img/logo.png" alt="MyCar" width="180px" height="50px" style={{ borderRadius: '10px' }} />
               </Link>
               <button className="menu-toggle" onClick={mobileMenu}>
                 <i className="fa fa-times" />

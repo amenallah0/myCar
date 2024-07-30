@@ -43,9 +43,9 @@ const AboutTwo = () => {
           <div className="col-xxl-5 col-xl-6">
             <div className="about-content-wrap">
               <div className="title-area mb-30">
-                <span className="sub-title">Know About Us</span>
+                <span className="sub-title">Welcome to MyCar</span>
                 <h2 className="sec-title">
-                  Non Leo Libero Amet The Maecenas Gravida{" "}
+                We are committed to revolutionizing the way people buy and sell cars.{" "}
                   <img
                     className="title-bg-shape shape-center"
                     src="assets/img/bg/title-bg-shape.png"
@@ -53,10 +53,7 @@ const AboutTwo = () => {
                   />
                 </h2>
                 <p className="sec-text">
-                  A car repair is a service provided to fix any issues or
-                  damages with a your vehicle. It involves diagnosing the
-                  problem, repairing or replacing the necessary parts, and
-                  ensuring that the car
+                Our mission is to provide a seamless, transparent, and efficient platform where buyers and sellers can connect, interact, and transact with confidence.
                 </p>
               </div>
               <div className="about-feature-wrap style-shadow">
@@ -65,26 +62,25 @@ const AboutTwo = () => {
                 </div>
                 <div className="about-feature-wrap-details">
                   <h5 className="about-feature-title">
-                    Elite Automotive Service
+                   Simplify the Car Buying Process
                   </h5>
                   <p className="about-feature-text">
-                    Et purus duis sollicitudin dignissim habitant. Egestas nulla
-                    quis venenatis cras sed{" "}
+                  By providing comprehensive listings, detailed car information, and user-friendly search functionalities, 
+                  we make it easier for buyers to find their ideal vehicle.{" "}
                   </p>
                 </div>
               </div>
-              <div className="about-feature-wrap style-shadow">
+              {/* <div className="about-feature-wrap style-shadow">
                 <div className="icon">
                   <img src="assets/img/icon/about_icon2-4.svg" alt="Fixturbo" />
                 </div>
                 <div className="about-feature-wrap-details">
-                  <h5 className="about-feature-title">Pro Drive Garage</h5>
+                  <h5 className="about-feature-title">Support Sellers</h5>
                   <p className="about-feature-text">
-                    Et purus duis sollicitudin dignissim habitant. Egestas nulla
-                    quis venenatis cras sed{" "}
+                  Whether you are an individual or a dealership, our platform provides you with the tools you need to reach a wide audience and sell your car quickly and efficiently.{" "}
                   </p>
                 </div>
-              </div>
+              </div> */}
             </div>
           </div>
         </div>

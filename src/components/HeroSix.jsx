@@ -1,6 +1,13 @@
 import React, { useEffect, useState } from "react";
 import ApiCarService from "../services/apiCarServices"; // Adjust the import path as needed
 import { Link } from "react-router-dom";
+import { Swiper, SwiperSlide } from "swiper/react";
+import "swiper/swiper-bundle.min.css"; // Import main Swiper styles
+import SwiperCore, { Autoplay, Pagination, Navigation } from "swiper"; // Import the Autoplay and Navigation modules
+import moment from "moment"; // Import moment.js to format the date
+
+// Register the Autoplay, Pagination, and Navigation modules
+SwiperCore.use([Autoplay, Pagination, Navigation]);
 
 const HeroSix = () => {
   const [cars, setCars] = useState([]);
@@ -10,7 +17,7 @@ const HeroSix = () => {
     const fetchLatestCars = async () => {
       try {
         const response = await ApiCarService.getLatestCars();
-        setCars(response);
+        setCars([...response]);
       } catch (error) {
         console.error("Error fetching latest cars:", error);
       } finally {
@@ -26,59 +33,76 @@ const HeroSix = () => {
   return (
     <div className="hero-wrapper" id="hero">
       <div className="container">
-        <div className="hero-6" style={{ backgroundColor: "#EAE1D6" }}>
+        {/* Hero Section */}
+        <div className="hero-6 py-5" style={{ backgroundColor: "#EAE1D6" }}>
           <div className="row flex-row-reverse align-items-center">
             <div className="col-md-6">
               <div className="hero-thumb text-center">
-                <img src="assets/img/update-img/homepage.jpeg" alt="MyCar" className="img-fluid" />
+                <img
+                  src="assets/img/update-img/homepage.jpeg"
+                  alt="MyCar"
+                  className="img-fluid rounded shadow"
+                />
               </div>
             </div>
             <div className="col-md-6">
               <div className="hero-style6">
-                <span className="sub-title">Featured Product</span>
-                <h1 className="hero-title">Engine pistons</h1>
-                <div className="btn-group">
-                  <Link to="/shop" className="btn style2 style-radius">
+                <span className="sub-title">Welcome To MyCar</span>
+                <h1 className="hero-title">Your Best Way To Buy A Car</h1>
+                <div className="btn-group mt-3">
+                  <Link to="/shop" className="btn btn-primary-custom btn-lg ">
                     Shop Now
                   </Link>
-                  <span className="offer-tag">Up to 20% Off</span>
                 </div>
               </div>
             </div>
           </div>
         </div>
-        <div className="container">
-          <div className="row gx-3 gy-4">
+        {/* Latest Cars Section */}
+        <div className="latest-cars-section py-5">
+          <h3 className="text-center mb-4">Latest Cars For Sale</h3>
+          <Swiper
+            spaceBetween={30}
+            slidesPerView={3}
+            // pagination={{ clickable: true }}
+            autoplay={{ delay: 3000, disableOnInteraction: false }}
+            className="swiper-wrapper"
+          >
             {cars.length > 0 ? (
               cars.map((car) => (
-                <div key={car.id} className="col-lg-4 col-md-6">
-                  <div className="card shadow-sm border-light rounded">
-                    <img
-                      src={`http://localhost:8081/api/files/download/${car.images[0]?.filename}`}
-                      alt={`${car.make} ${car.model}`}
-                      className="card-img-top img-fluid" // Ensure image is responsive and fills the container
-                      style={{ height: '300px', objectFit: 'cover' }} // Fixed height for uniform size
-                    />
-                    <div className="card-body text-center">
-                      <h4 className="card-title mb-3">
-                        <Link to={`/shop-details/${car.id}`} className="text-dark">
+                <SwiperSlide key={car.id}>
+                  <div className="hero-intro-card" style={{ backgroundColor: "#F2F2EF" }}>
+                    <div className="intro-card-img">
+                      <img
+                        src={`http://localhost:8081/api/files/download/${car.images[0]?.filename}`}
+                        alt={`${car.make} ${car.model}`}
+                        className="img-fluid"
+                        style={{ height: '300px', objectFit: 'fill' }}
+                      />
+                    </div>
+                    <div className="intro-card-details">
+                      <h6 className="intro-card-subtitle">
+                        {moment(car.createdAt).format('MMMM Do YYYY, h:mm:ss a')}
+                      </h6>
+                      <h4 className="intro-card-title">
+                        <Link to={`/shop-details/${car.id}`}>
                           {car.make} {car.model}
                         </Link>
                       </h4>
-                      <Link to={`/shop-details/${car.id}`} className="btn btn-primary-custom btn-lg w-50">
+                      <Link to={`/shop-details/${car.id}`} className="btn style5 style-radius">
                         Shop Now
                         <i className="fas fa-arrow-right ms-2" />
                       </Link>
                     </div>
                   </div>
-                </div>
+                </SwiperSlide>
               ))
             ) : (
               <div className="col-12 text-center">
                 <p className="lead">No cars available at the moment. Please check back later!</p>
               </div>
             )}
-          </div>
+          </Swiper>
         </div>
       </div>
     </div>

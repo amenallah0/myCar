@@ -28,7 +28,6 @@ const CategoryAreaOne = () => {
             spaceBetween={20}
             slidesPerGroup={1}
             speed={500} // Adjust speed for smooth scrolling
-            pagination={{ clickable: true }}
             loop
             autoplay={{ delay: 2000, disableOnInteraction: false }} // Adjust delay for smoother effect
             className="mySwiper"
@@ -58,7 +57,7 @@ const CategoryAreaOne = () => {
                     src={brand.logo}
                     alt={brand.name}
                     className="img-fluid mb-2"
-                    style={{ maxHeight: '100px' }}
+                    style={{ maxHeight: '150px' }}
                     // eslint-disable-next-line jsx-a11y/img-redundant-alt
                   />
                   <h6 className="text-center">

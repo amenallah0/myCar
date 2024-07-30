@@ -19,10 +19,7 @@ const ProcessAreaOne = () => {
         <div className="row justify-content-center">
           <div className="col-lg-6">
             <div className="title-area text-center">
-              <span className="sub-title">Work Process</span>
-              <h2 className="sec-title">
-                It Dependable Car Repair Best Solutions
-              </h2>
+              <span className="sub-title">What We Offer</span>
             </div>
           </div>
         </div>
@@ -32,11 +29,9 @@ const ProcessAreaOne = () => {
               <div className="process-card-icon">
                 <img src="/assets/img/icon/process-icon-1-1.svg" alt="Fixturbo" />
               </div>
-              <h4 className="process-card-title">Mobile Car Repair</h4>
+              <h4 className="process-card-title">Wide Selection of Vehicles</h4>
               <p className="process-card-text">
-                It is long established fact that a reader will be distrol acted
-                bioiiy. It is long established fact that a reader will be
-                distrol acted bioiiy
+              Our platform features a diverse range of cars, from new models to pre-owned vehicles, catering to different budgets and preferences.
               </p>
             </div>
           </div>
@@ -45,11 +40,9 @@ const ProcessAreaOne = () => {
               <div className="process-card-icon">
                 <img src="/assets/img/icon/process-icon-1-2.svg" alt="Fixturbo" />
               </div>
-              <h4 className="process-card-title">Pro Auto Fix</h4>
+              <h4 className="process-card-title">Detailed Listings</h4>
               <p className="process-card-text">
-                It is long established fact that a reader will be distrol acted
-                bioiiy. It is long established fact that a reader will be
-                distrol acted bioiiy
+              Each car listing includes high-quality photos, detailed descriptions, and key specifications, ensuring you have all the information you need at your fingertips.
               </p>
             </div>
           </div>
@@ -58,11 +51,9 @@ const ProcessAreaOne = () => {
               <div className="process-card-icon">
                 <img src="/assets/img/icon/process-icon-1-3.svg" alt="Fixturbo" />
               </div>
-              <h4 className="process-card-title">Precision Auto Works</h4>
+              <h4 className="process-card-title">Expert Assistance</h4>
               <p className="process-card-text">
-                It is long established fact that a reader will be distrol acted
-                bioiiy. It is long established fact that a reader will be
-                distrol acted bioiiy
+              Our team of automotive experts is available to provide guidance, answer questions, and offer insights to help you make the best choice.
               </p>
             </div>
           </div>

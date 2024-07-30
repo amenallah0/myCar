@@ -13,9 +13,8 @@ const TeamAreaTwo = () => {
               <span className="sub-title">Team Member</span>
               <h2 className="sec-title">Car Repair The Best Services</h2>
               <p className="sec-text mb-lg-5 mb-4">
-                A car repair is a service provided to fix any issues or a
-                damages with your vehicle. It a involves diagnosing the problem,
-                repairing or replacing
+              Behind MyCar is a passionate team of automotive enthusiasts, tech experts, and customer service professionals. 
+              We are dedicated to providing you with the best experience possible and continuously improving our platform based on your feedback.
               </p>
               <div className="icon-box">
                 <button

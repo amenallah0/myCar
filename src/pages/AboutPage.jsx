@@ -27,7 +27,7 @@ const AboutPage = () => {
       <Header />
 
       {/* Breadcrumb */}
-      <Breadcrumb title={"About Us"} />
+      {/* <Breadcrumb title={"About Us"} /> */}
 
       {/* About Area */}
       <AboutTwo />
@@ -36,7 +36,7 @@ const AboutPage = () => {
       <ProcessAreaOne />
 
       {/* CTA Area One */}
-      <CTAAreaOne />
+      {/* <CTAAreaOne /> */}
 
       {/* Testimonial One */}
       <TestimonialOne />
@@ -45,7 +45,7 @@ const AboutPage = () => {
       <TeamAreaTwo />
 
       {/* Subscribe One */}
-      <SubscribeOne />
+      {/* <SubscribeOne /> */}
 
       {/* Footer Area One */}
       <FooterAreaOne />

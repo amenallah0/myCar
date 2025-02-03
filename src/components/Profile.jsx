@@ -154,18 +154,6 @@ export default function ProfilePage() {
               </Breadcrumb.Item>
               <Breadcrumb.Item active>User Profile</Breadcrumb.Item>
             </Breadcrumb>
-            <OverlayTrigger
-              placement="left"
-              overlay={<Tooltip>Disconnect</Tooltip>}
-            >
-              <div
-                onClick={handleDisconnect}
-                className="d-flex align-items-center cursor-pointer"
-                style={{ cursor: 'pointer', color: 'red' }}
-              >
-                <FontAwesomeIcon icon={faSignOutAlt} size="lg" />
-              </div>
-            </OverlayTrigger>
           </Col>
         </Row>
 

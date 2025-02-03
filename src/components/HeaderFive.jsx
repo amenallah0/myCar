@@ -6,7 +6,7 @@ const HeaderFive = () => {
   const [active, setActive] = useState(false);
   const [scroll, setScroll] = useState(false);
   const [wishlistCount, setWishlistCount] = useState(0);
-  const { user } = useUser();
+  const { user, logout } = useUser();
   const navigate = useNavigate();
 
   // Optimisation du gestionnaire de défilement
@@ -29,6 +29,11 @@ const HeaderFive = () => {
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, [handleScroll]);
+
+  const handleLogout = () => {
+    logout();
+    navigate('/');
+  };
 
   // Composant du logo
   const Logo = () => (
@@ -62,6 +67,20 @@ const HeaderFive = () => {
       color: user ? '#E8092E' : '#333',
     };
 
+    const logoutButtonStyle = {
+      padding: '8px 15px',
+      borderRadius: '5px',
+      border: '1px solid #E8092E',
+      backgroundColor: 'transparent',
+      color: '#E8092E',
+      cursor: 'pointer',
+      transition: 'all 0.3s ease',
+      marginLeft: '10px',
+      display: 'flex',
+      alignItems: 'center',
+      fontSize: '14px',
+    };
+
     const countStyle = {
       backgroundColor: '#E8092E',
       color: 'white',
@@ -81,16 +100,26 @@ const HeaderFive = () => {
     return (
       <div className="header-right-element">
         <ul style={{ display: 'flex', alignItems: 'center', margin: 0, padding: 0, listStyle: 'none' }}>
-          <li style={menuItemStyle}>
+          <li style={{ position: 'relative', marginRight: '20px' }}>
             {user ? (
-              <Link 
-                to={`/profile/${user.username}`} 
-                style={userMenuStyle}
-                className="user-account hover-effect"
-              >
-                <i className="far fa-user" style={userIconStyle}></i>
-                <span style={{ fontWeight: '500' }}>{user.username}</span>
-              </Link>
+              <div style={{ display: 'flex', alignItems: 'center' }}>
+                <Link 
+                  to={`/profile/${user.username}`} 
+                  style={userMenuStyle}
+                  className="user-account hover-effect"
+                >
+                  <i className="far fa-user" style={userIconStyle}></i>
+                  <span style={{ fontWeight: '500' }}>{user.username}</span>
+                </Link>
+                <button
+                  onClick={handleLogout}
+                  style={logoutButtonStyle}
+                  className="logout-button hover-effect"
+                >
+                  <i className="fas fa-sign-out-alt" style={{ marginRight: '5px' }}></i>
+                  Logout
+                </button>
+              </div>
             ) : (
               <Link 
                 to="/SignIn"
@@ -216,12 +245,29 @@ const styles = `
     border-color: #E8092E;
   }
 
+  .logout-button:hover {
+    background-color: #E8092E !important;
+    color: white !important;
+    transform: translateY(-2px);
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  }
+
+  .logout-button:active {
+    transform: translateY(0);
+  }
+
   @media (max-width: 768px) {
     .header-right-element {
       margin-top: 10px;
     }
     
     .header-right-element ul {
+      justify-content: center;
+    }
+
+    .logout-button {
+      margin-top: 10px;
+      width: 100%;
       justify-content: center;
     }
   }

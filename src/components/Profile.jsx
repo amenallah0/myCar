@@ -18,10 +18,12 @@ import ApiService from '../services/apiUserServices';
 import ApiCarService from '../services/apiCarServices';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { useUser } from './../userContext'; // Use the useUser hook
+import { useUser } from '../contexts/userContext';
+import { useNavigate } from 'react-router-dom';
 
 export default function ProfilePage() {
-  const { user: contextUser } = useUser();
+  const { user: contextUser, logout } = useUser();
+  const navigate = useNavigate();
   const userId = contextUser?.id;
 
   const [user, setUser] = useState(null);
@@ -126,9 +128,8 @@ export default function ProfilePage() {
   };
 
   const handleDisconnect = () => {
-    // Implement disconnect logic here, e.g., log out the user, clear session, etc.
-    setIsDisconnected(true);
-    // Add further logic as per your application's requirements
+    logout();
+    navigate('/');
   };
 
   // Pagination

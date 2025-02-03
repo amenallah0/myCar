@@ -22,35 +22,38 @@ import SignUpPage from "./pages/SignUpPage";
 import SignInPage from "./pages/SignInPage";
 import Profile from './pages/ProfilePage';
 import AddCarPage from "./pages/AddCarPage";
+import { UserProvider } from './contexts/userContext';
 
 function App() {
   return (
-    <BrowserRouter>
-      <RouteScrollToTop />
-      <ScrollToTop smooth color="#E8092E" />
-      <Routes>
-        <Route exact path="/" element={<HomePageSix />} />
-        <Route exact path="/about" element={<AboutPage />} />
-        <Route exact path="/service" element={<ServicePage />} />
-        <Route exact path="/service-details" element={<ServiceDetailsPage />} />
-        <Route exact path="/project" element={<ProjectPage />} />
-        <Route exact path="/project-details" element={<ProjectDetailsPage />} />
-        <Route exact path="/blog" element={<BlogPage />} />
-        <Route exact path="/blog-details" element={<BlogDetailsPage />} />
-        <Route exact path="/team" element={<TeamPage />} />
-        <Route exact path="/team-details" element={<TeamDetailsPage />} />
-        <Route exact path="/shop" element={<ShopPage />} />
-        <Route exact path="/shop-details/:id" element={<ShopDetailsPage />} />
-        <Route exact path="/cart" element={<CartPage />} />
-        <Route exact path="/checkout" element={<CheckoutPage />} />
-        <Route exact path="/wishlist" element={<WishlistPage />} />
-        <Route exact path="/contact" element={<ContactPage />} />
-        <Route exact path="/SignUp" element={<SignUpPage />} />
-        <Route exact path="/SignIn" element={<SignInPage />} />
-        <Route path="/profile/:username" element={<Profile />} />
-        <Route path="/AddCar" element={<AddCarPage />} />
-      </Routes>
-    </BrowserRouter>
+    <UserProvider>
+      <BrowserRouter>
+        <RouteScrollToTop />
+        <ScrollToTop smooth color="#E8092E" />
+        <Routes>
+          <Route exact path="/" element={<HomePageSix />} />
+          <Route exact path="/about" element={<AboutPage />} />
+          <Route exact path="/service" element={<ServicePage />} />
+          <Route exact path="/service-details" element={<ServiceDetailsPage />} />
+          <Route exact path="/project" element={<ProjectPage />} />
+          <Route exact path="/project-details" element={<ProjectDetailsPage />} />
+          <Route exact path="/blog" element={<BlogPage />} />
+          <Route exact path="/blog-details" element={<BlogDetailsPage />} />
+          <Route exact path="/team" element={<TeamPage />} />
+          <Route exact path="/team-details" element={<TeamDetailsPage />} />
+          <Route exact path="/shop" element={<ShopPage />} />
+          <Route exact path="/shop-details/:id" element={<ShopDetailsPage />} />
+          <Route exact path="/cart" element={<CartPage />} />
+          <Route exact path="/checkout" element={<CheckoutPage />} />
+          <Route exact path="/wishlist" element={<WishlistPage />} />
+          <Route exact path="/contact" element={<ContactPage />} />
+          <Route exact path="/SignUp" element={<SignUpPage />} />
+          <Route exact path="/SignIn" element={<SignInPage />} />
+          <Route path="/profile/:username" element={<Profile />} />
+          <Route path="/AddCar" element={<AddCarPage />} />
+        </Routes>
+      </BrowserRouter>
+    </UserProvider>
   );
 }
 

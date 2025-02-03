@@ -4,29 +4,44 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import ApiService from '../services/apiUserServices';
 import { GoogleLogin } from 'react-google-login';
-import { useUser } from '../userContext';
+import { useUser } from '../contexts/userContext';
 
 function SignIn() {
-    const { setUser } = useUser();
+    const navigate = useNavigate();
+    const { login } = useUser();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-
         try {
-            const response = await ApiService.signInUser(email, password);
-            console.log('Sign in successful:', response);
-            toast.success('Sign in successful!');
-            setEmail('');
-            setPassword('');
-            setUser(response); 
-            localStorage.setItem('user', JSON.stringify(response)); // Store user data in local storage
-            navigate('/');
+            const params = new URLSearchParams();
+            params.append('email', email);
+            params.append('password', password);
+
+            const response = await fetch(`http://localhost:8081/users/signin?${params.toString()}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+            });
+
+            if (response.ok) {
+                const userData = await response.json();
+                if (login) {
+                    login(userData);
+                    toast.success('Connexion réussie!');
+                    navigate('/profile/' + userData.username);
+                } else {
+                    console.error('Login function is not defined');
+                    toast.error('Erreur de configuration');
+                }
+            } else {
+                toast.error('Échec de la connexion. Vérifiez vos identifiants.');
+            }
         } catch (error) {
-            console.error('Error signing in:', error);
-            toast.error('Failed to sign in. Please check your credentials and try again.');
+            console.error('Error:', error);
+            toast.error('Erreur de connexion au serveur');
         }
     };
 
@@ -37,7 +52,7 @@ function SignIn() {
             toast.success('Sign in successful!');
             setEmail('');
             setPassword('');
-            setUser(response);
+            login(response);
             localStorage.setItem('user', JSON.stringify(response)); // Store user data in local storage
             navigate('/');
         } catch (error) {

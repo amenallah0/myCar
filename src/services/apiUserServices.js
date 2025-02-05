@@ -63,15 +63,13 @@ const ApiService = {
 
     signInUser: async (email, password) => {
         try {
-            const response = await api.post('/users/signin', null, {
-                params: {
-                    email,
-                    password,
-                },
+            const response = await api.post('/users/signin', {
+                email: email,
+                password: password
             });
             return response.data;
         } catch (error) {
-            throw error.response.data;
+            throw error.response ? error.response.data : error;
         }
     },
     updateUser: async (id, userData) => {

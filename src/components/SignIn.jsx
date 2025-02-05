@@ -15,15 +15,16 @@ function SignIn() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const params = new URLSearchParams();
-            params.append('email', email);
-            params.append('password', password);
-
-            const response = await fetch(`http://localhost:8081/users/signin?${params.toString()}`, {
+            const response = await fetch('http://localhost:8081/users/signin', {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded',
+                    'Content-Type': 'application/json',
                 },
+                credentials: 'include',
+                body: JSON.stringify({
+                    email: email,
+                    password: password
+                })
             });
 
             if (response.ok) {

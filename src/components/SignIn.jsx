@@ -12,39 +12,46 @@ function SignIn() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        try {
-            const response = await fetch('http://localhost:8081/users/signin', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                credentials: 'include',
-                body: JSON.stringify({
-                    email: email,
-                    password: password
-                })
-            });
+    // ... existing code ...
 
-            if (response.ok) {
-                const userData = await response.json();
-                if (login) {
-                    login(userData);
-                    toast.success('Connexion réussie!');
-                    navigate('/profile/' + userData.username);
-                } else {
-                    console.error('Login function is not defined');
-                    toast.error('Erreur de configuration');
-                }
+const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+        const response = await fetch('http://localhost:8081/users/signin', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            },
+            credentials: 'include',
+            body: JSON.stringify({
+                email,
+                password
+            })
+        });
+
+        const userData = await response.json();
+
+        if (response.ok) {
+            if (login) {
+                login(userData);
+                toast.success('Connexion réussie!');
+                navigate('/profile/' + userData.username);
             } else {
-                toast.error('Échec de la connexion. Vérifiez vos identifiants.');
+                console.error('Login function is not defined');
+                toast.error('Erreur de configuration');
             }
-        } catch (error) {
-            console.error('Error:', error);
-            toast.error('Erreur de connexion au serveur');
+        } else {
+            // Utiliser le message d'erreur du serveur si disponible
+            const errorMessage = userData.message || 'Échec de la connexion. Vérifiez vos identifiants.';
+            toast.error(errorMessage);
         }
-    };
+    } catch (error) {
+        console.error('Error:', error);
+        toast.error('Erreur de connexion au serveur');
+    }
+};
+
 
     const responseGoogle = async (response) => {
         try {

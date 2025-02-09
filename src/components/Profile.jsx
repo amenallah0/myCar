@@ -52,16 +52,28 @@ export default function ProfilePage() {
       const fetchUserData = async () => {
         try {
           const userData = await ApiService.getUserById(userId);
-          setUser(userData);
-          setEditedUser(userData);
+          if (userData) {
+            setUser(userData);
+            setEditedUser(userData);
+          } else {
+            // Handle case where user data is not found
+            toast.error('User data not found');
+            navigate('/');
+          }
         } catch (error) {
           console.error('Error fetching user data:', error);
+          toast.error('Error loading user profile');
+          navigate('/');
         }
       };
 
       fetchUserData();
+    } else {
+      // If no userId is present in context, redirect to login
+      toast.error('Please login to view profile');
+      navigate('/signin');
     }
-  }, [userId]);
+  }, [userId, navigate]);
 
   const fetchCarDetails = async (carId) => {
     try {

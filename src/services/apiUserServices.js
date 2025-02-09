@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL = 'http://localhost:8081';
+const API_URL = 'http://localhost:8081/api';
 
 const api = axios.create({
     baseURL: API_URL,
@@ -25,12 +25,23 @@ const ApiService = {
         }
     },
 
-    getUserById: async (id) => {
+    getUserById: async (userId) => {
         try {
-            const response = await api.get(`/users/${id}`);
-            return response.data;
+            const response = await fetch(`http://localhost:8081/api/users/${userId}`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                credentials: 'include',
+            });
+
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+
+            return await response.json();
         } catch (error) {
-            throw error.response.data;
+            throw error;
         }
     },
 

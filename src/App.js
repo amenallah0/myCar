@@ -23,6 +23,8 @@ import SignInPage from "./pages/SignInPage";
 import Profile from './pages/ProfilePage';
 import AddCarPage from "./pages/AddCarPage";
 import { UserProvider } from './contexts/userContext';
+import AdminDashboard from './components/admin/AdminDashboard';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 function App() {
   return (
@@ -51,6 +53,7 @@ function App() {
           <Route exact path="/SignIn" element={<SignInPage />} />
           <Route path="/profile/:username" element={<Profile />} />
           <Route path="/AddCar" element={<AddCarPage />} />
+          <Route path="/admin" element={<AdminDashboard />} />
         </Routes>
       </BrowserRouter>
     </UserProvider>

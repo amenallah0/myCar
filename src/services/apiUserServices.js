@@ -100,6 +100,16 @@ const ApiService = {
           throw error.response ? error.response.data : error;
         }
       },
+    getAllUsers: async () => {
+        try {
+            const response = await api.get('/users');
+            console.log('API Response:', response.data); // Pour déboguer
+            return Array.isArray(response.data) ? response.data : [];
+        } catch (error) {
+            console.error('Get All Users Error:', error);
+            return [];
+        }
+    },
 };
 
 export default ApiService;

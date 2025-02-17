@@ -36,7 +36,13 @@ const handleSubmit = async (e) => {
             if (login) {
                 login(userData);
                 toast.success('Connexion réussie!');
-                navigate('/profile/' + userData.username);
+                
+                // Vérifier si l'utilisateur est un admin
+                if (userData.role === 'ADMIN') {
+                    navigate('/admin');
+                } else {
+                    navigate('/profile/' + userData.username);
+                }
             } else {
                 console.error('Login function is not defined');
                 toast.error('Erreur de configuration');

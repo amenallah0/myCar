@@ -210,8 +210,20 @@ const AdminDashboard = () => {
   const fetchExperts = async () => {
     try {
       const response = await ApiExpertService.getAllExperts();
-      setExperts(response);
       console.log('Experts fetched:', response);
+      
+      // Formater les données si nécessaire
+      const formattedExperts = response.map(expert => ({
+        id: expert.id,
+        nom: expert.nom || expert.username?.split(' ')[0] || '',
+        prenom: expert.prenom || expert.username?.split(' ')[1] || '',
+        specialite: expert.specialization || expert.specialite,
+        email: expert.email,
+        telephone: expert.phone || expert.telephone || '',
+        status: expert.status
+      }));
+
+      setExperts(formattedExperts);
     } catch (error) {
       console.error('Error fetching experts:', error);
       setExperts([]);
@@ -247,9 +259,45 @@ const AdminDashboard = () => {
 
   const handleApproveExpert = async (requestId) => {
     try {
-      await ApiExpertRequestService.approveRequest(requestId);
-      fetchExpertRequests();
-      fetchExperts();
+      // Trouver la demande d'expert correspondante
+      const request = expertRequests.find(req => req.id === requestId);
+      if (!request) {
+        toast.error('Demande non trouvée');
+        return;
+      }
+
+      // Appeler l'API pour approuver la demande
+      const response = await ApiExpertRequestService.approveRequest(requestId);
+
+      // Créer un nouvel expert avec le format correct
+      const newExpert = {
+        id: request.id,
+        nom: request.username.split(' ')[0] || '', // Supposant que le username contient "nom prénom"
+        prenom: request.username.split(' ')[1] || '',
+        specialite: request.specialization,
+        email: request.email,
+        telephone: request.phone || '',
+        status: 'ACTIVE'
+      };
+
+      // Mettre à jour le state des experts immédiatement
+      setExperts(prevExperts => {
+        const updatedExperts = [...prevExperts, newExpert];
+        console.log('Updated experts list:', updatedExperts); // Pour le débogage
+        return updatedExperts;
+      });
+      
+      // Retirer la demande approuvée de la liste des demandes
+      setExpertRequests(prevRequests => 
+        prevRequests.filter(req => req.id !== requestId)
+      );
+
+      // Rafraîchir les données depuis le backend
+      await Promise.all([
+        fetchExperts(),
+        fetchExpertRequests()
+      ]);
+
       toast.success('Expert approuvé avec succès');
     } catch (error) {
       console.error('Error approving expert:', error);
@@ -260,7 +308,13 @@ const AdminDashboard = () => {
   const handleRejectExpert = async (requestId) => {
     try {
       await ApiExpertRequestService.rejectRequest(requestId);
-      fetchExpertRequests();
+      
+      // Mettre à jour la liste des demandes en retirant celle qui vient d'être rejetée
+      setExpertRequests(prevRequests => 
+        prevRequests.filter(req => req.id !== requestId)
+      );
+      
+      await fetchExpertRequests();
       toast.success('Demande rejetée avec succès');
     } catch (error) {
       console.error('Error rejecting expert:', error);

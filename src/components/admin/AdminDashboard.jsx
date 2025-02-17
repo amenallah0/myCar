@@ -8,9 +8,15 @@ import AdminUsers from './AdminUsers';
 import AdminCars from './AdminCars';
 import AdminSales from './AdminSales';
 import AdminSettings from './AdminSettings';
+import AdminExperts from './AdminExperts';
+import AdminExpertRequests from './AdminExpertRequests';
 import ApiUserService from '../../services/apiUserServices';
 import ApiCarService from '../../services/apiCarServices';
 import ApiService from '../../services/apiUserServices';
+import ApiExpertService from '../../services/apiExpertServices';
+import ApiExpertRequestService from '../../services/apiExpertRequestServices';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 // Styled Components
 const StyledDashboard = styled.div`
@@ -66,10 +72,16 @@ const AdminDashboard = () => {
     listingGrowth: 0
   });
 
+  const [experts, setExperts] = useState([]);
+  const [selectedExpert, setSelectedExpert] = useState(null);
+  const [expertRequests, setExpertRequests] = useState([]);
+
   useEffect(() => {
-    console.log('Fetching users...');
+    console.log('Fetching data...');
     fetchUsers();
     fetchCars();
+    fetchExperts();
+    fetchExpertRequests();
   }, []);
 
   const fetchUsers = async () => {
@@ -195,6 +207,67 @@ const AdminDashboard = () => {
     updateStats();
   }, [users, cars]);
 
+  const fetchExperts = async () => {
+    try {
+      const response = await ApiExpertService.getAllExperts();
+      setExperts(response);
+      console.log('Experts fetched:', response);
+    } catch (error) {
+      console.error('Error fetching experts:', error);
+      setExperts([]);
+    }
+  };
+
+  const handleDeleteExpert = async (expertId) => {
+    if (window.confirm('Êtes-vous sûr de vouloir supprimer cet expert ?')) {
+      try {
+        await ApiExpertService.deleteExpert(expertId);
+        fetchExperts(); // Rafraîchir la liste
+        alert('Expert supprimé avec succès');
+      } catch (error) {
+        console.error('Error deleting expert:', error);
+        alert('Erreur lors de la suppression');
+      }
+    }
+  };
+
+  const handleEditExpert = (expert) => {
+    setSelectedExpert(expert);
+    setShowModal(true);
+  };
+
+  const fetchExpertRequests = async () => {
+    try {
+      const response = await ApiExpertRequestService.getAllRequests();
+      setExpertRequests(response);
+    } catch (error) {
+      console.error('Error fetching expert requests:', error);
+    }
+  };
+
+  const handleApproveExpert = async (requestId) => {
+    try {
+      await ApiExpertRequestService.approveRequest(requestId);
+      fetchExpertRequests();
+      fetchExperts();
+      toast.success('Expert approuvé avec succès');
+    } catch (error) {
+      console.error('Error approving expert:', error);
+      toast.error('Erreur lors de l\'approbation');
+    }
+  };
+
+  const handleRejectExpert = async (requestId) => {
+    try {
+      await ApiExpertRequestService.rejectRequest(requestId);
+      fetchExpertRequests();
+      toast.success('Demande rejetée avec succès');
+    } catch (error) {
+      console.error('Error rejecting expert:', error);
+      toast.error('Erreur lors du rejet');
+    }
+  };
+
   return (
     <StyledDashboard>
       <Container fluid>
@@ -222,6 +295,20 @@ const AdminDashboard = () => {
             )}
             {activeTab === 'sales' && <AdminSales />}
             {activeTab === 'settings' && <AdminSettings />}
+            {activeTab === 'experts' && (
+              <AdminExperts 
+                experts={experts}
+                onDelete={handleDeleteExpert}
+                onEdit={handleEditExpert}
+              />
+            )}
+            {activeTab === 'expert-requests' && (
+              <AdminExpertRequests 
+                requests={expertRequests}
+                onApprove={handleApproveExpert}
+                onReject={handleRejectExpert}
+              />
+            )}
           </StyledContent>
         </Row>
 

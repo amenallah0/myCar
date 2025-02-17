@@ -20,6 +20,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useUser } from '../contexts/userContext';
 import { useNavigate } from 'react-router-dom';
+import ApiExpertRequestService from '../services/apiExpertRequestServices';
 
 export default function ProfilePage() {
   const { user: contextUser, logout } = useUser();
@@ -134,9 +135,21 @@ export default function ProfilePage() {
 
   const handleExpertFormSubmit = async (e) => {
     e.preventDefault();
-    console.log(expertFormData);
-    setShowModal(false);
-    toast.success('Expert information submitted successfully');
+    try {
+      const formData = new FormData();
+      formData.append('specialization', expertFormData.specialization);
+      formData.append('experience', expertFormData.experience);
+      formData.append('currentPosition', expertFormData.currentPosition);
+      formData.append('diploma', expertFormData.diploma);
+      formData.append('userId', userId);
+
+      await ApiExpertRequestService.createRequest(formData);
+      setShowModal(false);
+      toast.success('Votre demande d\'expert a été envoyée avec succès');
+    } catch (error) {
+      console.error('Error submitting expert request:', error);
+      toast.error('Erreur lors de l\'envoi de la demande');
+    }
   };
 
   const handleDisconnect = () => {

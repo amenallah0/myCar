@@ -64,6 +64,20 @@ const AdminSidebar = ({ activeTab, setActiveTab }) => {
       >
         <FaCog /> Settings
       </Nav.Link>
+      <Nav.Link 
+        active={activeTab === 'experts'}
+        onClick={() => setActiveTab('experts')}
+      >
+        <i className="fas fa-user-tie me-2"></i>
+        Experts
+      </Nav.Link>
+      <Nav.Link 
+        active={activeTab === 'expert-requests'}
+        onClick={() => setActiveTab('expert-requests')}
+      >
+        <i className="fas fa-user-clock me-2"></i>
+        Demandes d'Expert
+      </Nav.Link>
     </StyledNav>
   );
 };
